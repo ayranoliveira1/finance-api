@@ -28,7 +28,7 @@ export default tseslint.config(
   {
     rules: {
       quotes: ['error', 'single'],
-      semi: ['error', 'off'],
+      semi: 'off',
       'typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
