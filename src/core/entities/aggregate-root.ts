@@ -9,12 +9,12 @@ export abstract class AggregateRoot<T> extends Entity<T> {
     return this._domainEvents
   }
 
-  protected addDomainEvent(domainEvent: DomainEvent) {
+  protected addDomainEvent(domainEvent: DomainEvent): void {
     this._domainEvents.push(domainEvent)
     DomainEvents.markAggregateForDispatch(this)
   }
 
-  public clearEvents() {
+  public clearEvents(): void {
     this._domainEvents = []
   }
 }
