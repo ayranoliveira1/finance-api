@@ -1,0 +1,19 @@
+services:
+  database:
+    container_name: finance-ia-api
+    image: bitnami/postgresql:latest
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=finance-ia-db
+    volumes:
+      - ./data/pg:/data/postgres
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'ducop']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  postgres_data:
