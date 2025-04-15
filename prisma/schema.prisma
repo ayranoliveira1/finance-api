@@ -17,9 +17,12 @@ model User {
   id               String           @id @default(uuid())
   email            String           @unique
   name             String
-  subscriptionPlan SubscriptionPlan
-  role             UserRole
+  subscriptionPlan SubscriptionPlan @default(FREE)
+  role             UserRole         @default(USER)
   Transaction      Transaction[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("users")
 }
