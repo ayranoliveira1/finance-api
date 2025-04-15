@@ -29,6 +29,7 @@ export default tseslint.config(
     rules: {
       quotes: ['error', 'single'],
       semi: 'off',
+      '@typescript-eslint/require-await': 'off',
       'typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
