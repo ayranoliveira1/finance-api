@@ -52,9 +52,6 @@ describe('Authenticate User', () => {
       password: 'teste3009211',
     })
 
-    console.log(user)
-    console.log(result.value)
-
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(InvalidCredentialsError)
   })
