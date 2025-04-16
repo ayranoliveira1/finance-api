@@ -22,7 +22,7 @@ type CreateAccountBodyType = z.infer<typeof createAccountBodySchema>
 
 const bodyValidationPepe = new ZodValidationPipe(createAccountBodySchema)
 
-@Controller('/auth/login')
+@Controller('/auth/register')
 @Public()
 export class CreateAccountController {
   constructor(private registerUser: RegisterUseCase) {}
