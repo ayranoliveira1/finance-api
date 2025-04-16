@@ -21,6 +21,10 @@ export class User extends Entity<UserProps> {
     return this.props.email
   }
 
+  get role() {
+    return this.props.role
+  }
+
   get password() {
     return this.props.password
   }
@@ -47,6 +51,11 @@ export class User extends Entity<UserProps> {
     this.touch()
   }
 
+  set role(role: string) {
+    this.props.role = role
+    this.touch()
+  }
+
   set password(password: string) {
     this.props.password = password
     this.touch()
@@ -62,7 +71,7 @@ export class User extends Entity<UserProps> {
   }
 
   static create(
-    props: Optional<UserProps, 'createdAt' | 'subscriptionPlan'>,
+    props: Optional<UserProps, 'createdAt' | 'subscriptionPlan' | 'role'>,
     id?: UniqueEntityId,
   ) {
     const user = new User(
@@ -70,6 +79,7 @@ export class User extends Entity<UserProps> {
         ...props,
         subscriptionPlan: props.subscriptionPlan ?? 'FREE',
         createdAt: props.createdAt ?? new Date(),
+        role: props.role ?? 'USER',
       },
       id,
     )
