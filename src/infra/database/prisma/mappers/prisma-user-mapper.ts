@@ -9,6 +9,8 @@ export class PrismaUserMapper {
         name: raw.name,
         email: raw.email,
         password: raw.password,
+        role: raw.role,
+        subscriptionPlan: raw.subscriptionPlan,
       },
       new UniqueEntityId(raw.id),
     )
