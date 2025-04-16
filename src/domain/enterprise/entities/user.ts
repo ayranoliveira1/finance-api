@@ -7,6 +7,7 @@ export interface UserProps {
   email: string
   password: string
   subscriptionPlan: string
+  role: string
   createdAt: Date
   updatedAt?: Date
 }
