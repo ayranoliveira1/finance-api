@@ -4,6 +4,7 @@ import { InvalidCredentialsError } from './errors/invalid-credentials-error'
 import { User } from '@/domain/enterprise/entities/user'
 import { HashCompare } from '../cryptography/hash-compare'
 import { Encrypter } from '../cryptography/encrypter'
+import { Injectable } from '@nestjs/common'
 
 interface AuthenticateUserUseCaseRequest {
   email: string
@@ -18,6 +19,7 @@ type AuthenticateUserUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class AuthenticateUserUseCase {
   constructor(
     private userRepository: UserRepository,
@@ -35,7 +37,10 @@ export class AuthenticateUserUseCase {
       return left(new InvalidCredentialsError())
     }
 
-    const passwordIsValid = this.hashCompare.compare(password, user.password)
+    const passwordIsValid = await this.hashCompare.compare(
+      password,
+      user.password,
+    )
 
     if (!passwordIsValid) {
       return left(new InvalidCredentialsError())
