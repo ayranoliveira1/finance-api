@@ -67,7 +67,7 @@ export class User extends Entity<UserProps> {
     const user = new User(
       {
         ...props,
-        subscriptionPlan: props.subscriptionPlan ?? 'Free',
+        subscriptionPlan: props.subscriptionPlan ?? 'FREE',
         createdAt: props.createdAt ?? new Date(),
       },
       id,
