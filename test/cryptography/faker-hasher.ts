@@ -1,5 +1,5 @@
-import { HashCompare } from '@/domains/forum/application/cryptography/hash-compare'
-import { HashGenerate } from '@/domains/forum/application/cryptography/hash-generate'
+import { HashCompare } from '@/domain/application/cryptography/hash-compare'
+import { HashGenerate } from '@/domain/application/cryptography/hash-generate'
 
 export class FakerHasher implements HashGenerate, HashCompare {
   async hash(plain: string) {

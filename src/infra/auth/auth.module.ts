@@ -34,7 +34,7 @@ import { RefreshJwtGuard } from './refresh-jwt-guard'
             publicKey: Buffer.from(refreshPublicKey, 'base64'),
             signOptions: {
               algorithm: 'RS256',
-              expiresIn: '7d',
+              expiresIn: '3d',
             },
           },
         }
