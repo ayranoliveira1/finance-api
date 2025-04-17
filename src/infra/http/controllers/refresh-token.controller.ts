@@ -1,4 +1,4 @@
-import { AuthenticateUserUseCase } from '@/domain/application/use-case/authenticate-user'
+import { RefreshTokenUseCase } from '@/domain/application/use-case/refresh-token'
 import { Public } from '@/infra/auth/public'
 import {
   BadRequestException,
@@ -9,39 +9,36 @@ import {
   Res,
   UnauthorizedException,
 } from '@nestjs/common'
-import { z } from 'zod'
 import { Response } from 'express'
+import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { InvalidCredentialsError } from '@/domain/application/use-case/errors/invalid-credentials-error'
-import { UserPresenter } from '../presenters/user-presenter'
 
-const authenticateBodySchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
+const refreshteBodySchema = z.object({
+  refreshToken: z.string(),
 })
 
-type AuthenticateBodyType = z.infer<typeof authenticateBodySchema>
+type RefreshteBodyType = z.infer<typeof refreshteBodySchema>
 
-const bodyValidationType = new ZodValidationPipe(authenticateBodySchema)
+const bodyValidationType = new ZodValidationPipe(refreshteBodySchema)
 
-@Controller('/auth/login')
+@Controller('/auth/refresh-token')
 @Public()
-export class AuthenticateUserController {
-  constructor(private authenticateUser: AuthenticateUserUseCase) {}
+export class RefreshTokenController {
+  constructor(private refreshTokenUseCase: RefreshTokenUseCase) {}
 
   @Post()
   @HttpCode(201)
   async handle(
-    @Body(bodyValidationType) body: AuthenticateBodyType,
+    @Body(bodyValidationType) body: RefreshteBodyType,
     @Res({ passthrough: true }) res: Response,
   ) {
-    authenticateBodySchema.parse(body)
+    refreshteBodySchema.parse(body)
 
-    const { email, password } = body
+    const { refreshToken } = body
 
-    const result = await this.authenticateUser.execute({
-      email,
-      password,
+    const result = await this.refreshTokenUseCase.execute({
+      refreshToken,
     })
 
     if (result.isLeft()) {
@@ -55,18 +52,14 @@ export class AuthenticateUserController {
       }
     }
 
-    const { token, user, refreshToken } = result.value
-
-    res.cookie('refresh_token', refreshToken, {
+    res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
       maxAge: 3 * 24 * 60 * 60 * 1000,
     })
-
     return {
-      token: token,
-      user: UserPresenter.toHttp(user),
+      token: result.value.token,
     }
   }
 }

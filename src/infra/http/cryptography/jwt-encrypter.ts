@@ -8,14 +8,14 @@ export class JwrEcrypter implements Encrypter {
 
   encrypt(payload: Record<string, unknown>) {
     return this.jwt.signAsync(payload, {
-      expiresIn: '1h',
+      expiresIn: '1m',
       algorithm: 'RS256',
     })
   }
 
   encryptRefresh(payload: Record<string, unknown>) {
     return this.jwt.signAsync(payload, {
-      expiresIn: '7d',
+      expiresIn: '3d',
       algorithm: 'RS256',
     })
   }
