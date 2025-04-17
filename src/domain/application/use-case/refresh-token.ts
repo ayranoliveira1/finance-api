@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { UserRepository } from '../repositories/user-repository'
 import { Encrypter } from '../cryptography/encrypter'
-import { Either, right } from '@/core/either'
+import { Either, left, right } from '@/core/either'
 import { InvalidCredentialsError } from './errors/invalid-credentials-error'
 
 interface RefreshTokenUseCaseRequest {
@@ -27,12 +27,18 @@ export class RefreshTokenUseCase {
   }: RefreshTokenUseCaseRequest): Promise<RefreshTokenUseCaseResponse> {
     const payload = await this.encrypt.decryptRefresh(refreshToken)
 
+    const user = await this.userRepository.findById(payload.sub as string)
+
+    if (!user) {
+      return left(new InvalidCredentialsError())
+    }
+
     const token = await this.encrypt.encrypt({
-      sub: payload.sub,
+      sub: user.id,
     })
 
     const newRefreshToken = await this.encrypt.encryptRefresh({
-      sub: payload.sub,
+      sub: user.id,
     })
 
     return right({

@@ -29,4 +29,18 @@ export class PrimsaUserRepository implements UserRepository {
       data,
     })
   }
+
+  async findById(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    if (!user) {
+      return null
+    }
+
+    return PrismaUserMapper.toDomain(user)
+  }
 }
