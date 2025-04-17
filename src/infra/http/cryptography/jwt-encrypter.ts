@@ -7,6 +7,26 @@ export class JwrEcrypter implements Encrypter {
   constructor(private jwt: JwtService) {}
 
   encrypt(payload: Record<string, unknown>) {
-    return this.jwt.signAsync(payload)
+    return this.jwt.signAsync(payload, {
+      expiresIn: '1h',
+      algorithm: 'RS256',
+    })
+  }
+
+  encryptRefresh(payload: Record<string, unknown>) {
+    return this.jwt.signAsync(payload, {
+      expiresIn: '7d',
+      algorithm: 'RS256',
+    })
+  }
+  decrypt(token: string) {
+    return this.jwt.verifyAsync(token, {
+      algorithms: ['RS256'],
+    })
+  }
+  decryptRefresh(token: string) {
+    return this.jwt.verifyAsync(token, {
+      algorithms: ['RS256'],
+    })
   }
 }
