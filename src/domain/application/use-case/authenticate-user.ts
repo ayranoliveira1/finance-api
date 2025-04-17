@@ -16,6 +16,7 @@ type AuthenticateUserUseCaseResponse = Either<
   {
     user: User
     token: string
+    refreshToken: string
   }
 >
 
@@ -50,8 +51,13 @@ export class AuthenticateUserUseCase {
       sub: user.id.toString(),
     })
 
+    const refreshToken = await this.encrypt.encryptRefresh({
+      sub: user.id.toString(),
+    })
+
     return right({
       token,
+      refreshToken,
       user,
     })
   }

@@ -6,9 +6,11 @@ import {
   Controller,
   HttpCode,
   Post,
+  Res,
   UnauthorizedException,
 } from '@nestjs/common'
 import { z } from 'zod'
+import { Response } from 'express'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { InvalidCredentialsError } from '@/domain/application/use-case/errors/invalid-credentials-error'
 import { UserPresenter } from '../presenters/user-presenter'
@@ -29,7 +31,10 @@ export class AuthenticateUserController {
 
   @Post()
   @HttpCode(201)
-  async handle(@Body(bodyValidationType) body: AuthenticateBodyType) {
+  async handle(
+    @Body(bodyValidationType) body: AuthenticateBodyType,
+    @Res({ passthrough: true }) res: Response,
+  ) {
     authenticateBodySchema.parse(body)
 
     const { email, password } = body
@@ -50,7 +55,14 @@ export class AuthenticateUserController {
       }
     }
 
-    const { token, user } = result.value
+    const { token, user, refreshToken } = result.value
+
+    res.cookie('refresh_token', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dias
+    })
 
     return {
       token: token,
