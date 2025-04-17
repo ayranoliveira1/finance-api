@@ -7,6 +7,8 @@ import { APP_GUARD } from '@nestjs/core'
 import { JwtAuthGuart } from './jwt-auth-guard'
 import { EnvService } from '../env/env.service'
 import { EnvModule } from '../env/env.module'
+import { RefreshJwtStrategy } from './refresh-jwt-strategy'
+import { RefreshJwtGuard } from './refresh-jwt-guard'
 
 @Module({
   imports: [
@@ -18,17 +20,31 @@ import { EnvModule } from '../env/env.module'
       useFactory(env: ConfigService) {
         const privateKey = env.get('JWT_PRIVATE_KEY')
         const publicKey = env.get('JWT_PUBLIC_KEY')
+        const refreshPrivateKey = env.get('JWT_REFRESH_PRIVATE_KEY')
+        const refreshPublicKey = env.get('JWT_REFRESH_PUBLIC_KEY')
 
         return {
           signOptions: { algorithm: 'RS256' },
           privateKey: Buffer.from(privateKey, 'base64'),
           publicKey: Buffer.from(publicKey, 'base64'),
+
+          verifyOptions: { algorithms: ['RS256'] },
+          refreshTokenOptions: {
+            privateKey: Buffer.from(refreshPrivateKey, 'base64'),
+            publicKey: Buffer.from(refreshPublicKey, 'base64'),
+            signOptions: {
+              algorithm: 'RS256',
+              expiresIn: '7d',
+            },
+          },
         }
       },
     }),
   ],
   providers: [
     JwtStrategy,
+    RefreshJwtGuard,
+    RefreshJwtStrategy,
     EnvService,
     {
       provide: APP_GUARD,
