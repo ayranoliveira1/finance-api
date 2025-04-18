@@ -6,6 +6,7 @@ export default defineConfig({
   test: {
     include: ['**/*.e2e-spec.ts'],
     globals: true,
+    environment: 'node',
     root: './',
     setupFiles: ['./test/setup-e2e.ts'],
   },
@@ -15,4 +16,10 @@ export default defineConfig({
       module: { type: 'es6' },
     }),
   ],
+  optimizeDeps: {
+    exclude: ['express'],
+  },
+  ssr: {
+    external: ['express'],
+  },
 })
