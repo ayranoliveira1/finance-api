@@ -1,4 +1,4 @@
-import { RefreshTokenUseCase } from '@/domain/application/use-case/refresh-token'
+import { RefreshTokenUseCase } from '@/domain/application/use-case/user/refresh-token'
 import { Public } from '@/infra/auth/public'
 import {
   BadRequestException,

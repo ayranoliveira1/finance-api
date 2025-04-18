@@ -1,4 +1,4 @@
-import { RegisterUseCase } from '@/domain/application/use-case/register'
+import { RegisterUseCase } from '@/domain/application/use-case/user/register'
 import {
   BadRequestException,
   Body,

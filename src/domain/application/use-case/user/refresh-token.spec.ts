@@ -1,37 +1,37 @@
 import { FakerHasher } from 'test/cryptography/faker-hasher'
 import { FakerEncrypter } from 'test/cryptography/faker-encrypter'
-import { InvalidCredentialsError } from './errors/invalid-credentials-error'
+import { InvalidCredentialsError } from '../errors/invalid-credentials-error'
 import { InMemoryUserRepository } from 'test/repositories/in-memory-user-repository'
-import { AuthenticateUserUseCase } from './authenticate-user'
 import { makeUser } from 'test/factories/make-user'
+import { RefreshTokenUseCase } from './refresh-token'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let fakerHash: FakerHasher
 let fakerEcrypter: FakerEncrypter
-let sut: AuthenticateUserUseCase
+let sut: RefreshTokenUseCase
 
-describe('Authenticate User', () => {
+describe('Refresh token', () => {
   beforeEach(() => {
     inMemoryUserRepository = new InMemoryUserRepository()
     fakerHash = new FakerHasher()
     fakerEcrypter = new FakerEncrypter()
-    sut = new AuthenticateUserUseCase(
-      inMemoryUserRepository,
-      fakerHash,
-      fakerEcrypter,
-    )
+
+    sut = new RefreshTokenUseCase(inMemoryUserRepository, fakerEcrypter)
   })
 
-  it('should be able to Authenticate a user', async () => {
+  it('should be able refresh token', async () => {
     const user = makeUser({
       password: await fakerHash.hash('any_password'),
     })
 
     await inMemoryUserRepository.create(user)
 
+    const refreshToken = await fakerEcrypter.encryptRefresh({
+      sub: user.id.toString(),
+    })
+
     const result = await sut.execute({
-      email: user.email,
-      password: 'any_password',
+      refreshToken,
     })
 
     expect(result.isRight()).toBe(true)
@@ -42,14 +42,15 @@ describe('Authenticate User', () => {
     )
   })
 
-  it('should hash user password upon authenticate', async () => {
+  it('should be able to disallow wrong tokens', async () => {
     const user = makeUser()
 
     await inMemoryUserRepository.create(user)
 
     const result = await sut.execute({
-      email: user.email,
-      password: 'teste3009211',
+      refreshToken: await fakerEcrypter.encryptRefresh({
+        sub: 'ajn3h8hd8h82h8h8d',
+      }),
     })
 
     expect(result.isLeft()).toBe(true)

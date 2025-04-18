@@ -1,4 +1,4 @@
-import { AuthenticateUserUseCase } from '@/domain/application/use-case/authenticate-user'
+import { AuthenticateUserUseCase } from '@/domain/application/use-case/user/authenticate-user'
 import { Public } from '@/infra/auth/public'
 import {
   BadRequestException,
