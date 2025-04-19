@@ -5,7 +5,7 @@ import { Test } from '@nestjs/testing'
 import { hash } from 'bcryptjs'
 import request from 'supertest'
 
-describe('Create Transaction (E2E)', () => {
+describe('Fetch Transactions (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
 
@@ -21,7 +21,7 @@ describe('Create Transaction (E2E)', () => {
     await app.init()
   })
 
-  test('[POST] /transactions', async () => {
+  test('[Get] /transactions', async () => {
     await prisma.user.create({
       data: {
         name: 'John Doe',
@@ -35,7 +35,7 @@ describe('Create Transaction (E2E)', () => {
       password: '12345678',
     })
 
-    const response = await request(app.getHttpServer())
+    await request(app.getHttpServer())
       .post('/transactions')
       .send({
         name: 'Transaction 1',
@@ -46,6 +46,23 @@ describe('Create Transaction (E2E)', () => {
       })
       .set('Authorization', `Bearer ${user.body.token}`)
 
-    expect(response.statusCode).toBe(201)
+    const response = await request(app.getHttpServer())
+      .get('/transactions')
+      .set('Authorization', `Bearer ${user.body.token}`)
+      .query({
+        page: 1,
+        search: 'Transaction',
+      })
+
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        transactions: [
+          expect.objectContaining({
+            name: 'Transaction 1',
+          }),
+        ],
+      }),
+    )
   })
 })
