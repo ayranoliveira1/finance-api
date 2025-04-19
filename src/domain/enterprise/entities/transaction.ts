@@ -1,14 +1,19 @@
+import {
+  TransactionCategory,
+  TransactionPaymentMethod,
+  TransactionType,
+} from '@/core/@types/enums'
 import { Optional } from '@/core/@types/options'
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 export interface TransactionProps {
-  userId: string
+  userId: UniqueEntityId
   name: string
-  type: string
+  type: TransactionType
   amount: number
-  category: string
-  paymentMethod: string
+  category: TransactionCategory
+  paymentMethod: TransactionPaymentMethod
   date: Date
   createdAt: Date
   updatedAt?: Date
@@ -56,7 +61,7 @@ export class Transaction extends Entity<TransactionProps> {
     this.touch()
   }
 
-  set type(type: string) {
+  set type(type: TransactionType) {
     this.props.type = type
     this.touch()
   }
@@ -66,12 +71,12 @@ export class Transaction extends Entity<TransactionProps> {
     this.touch()
   }
 
-  set category(category: string) {
+  set category(category: TransactionCategory) {
     this.props.category = category
     this.touch()
   }
 
-  set paymentMethod(paymentMethod: string) {
+  set paymentMethod(paymentMethod: TransactionPaymentMethod) {
     this.props.paymentMethod = paymentMethod
     this.touch()
   }
