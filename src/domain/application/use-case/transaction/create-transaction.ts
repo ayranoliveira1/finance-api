@@ -7,6 +7,7 @@ import { TransactionRepository } from '../../repositories/transaction-repository
 import { Either, right } from '@/core/either'
 import { Transaction } from '@/domain/enterprise/entities/transaction'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { Injectable } from '@nestjs/common'
 
 interface CreateTransactionUseCaseRequest {
   name: string
@@ -25,6 +26,7 @@ type CreateTransactionUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateTransactionUseCase {
   constructor(private transactionRepository: TransactionRepository) {}
 
