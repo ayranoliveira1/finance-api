@@ -22,6 +22,8 @@ export class PrismaTransactionMapper {
         type: raw.type as unknown as TransactionType,
         date: raw.date,
         userId: new UniqueEntityId(raw.userId),
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
       },
       new UniqueEntityId(raw.id),
     )
@@ -40,6 +42,8 @@ export class PrismaTransactionMapper {
         transaction.paymentMethod as unknown as $Enums.TransactionPaymentMethod,
       date: transaction.date,
       userId: transaction.userId.toString(),
+      createdAt: transaction.createdAt,
+      updatedAt: transaction.updatedAt,
     }
   }
 }

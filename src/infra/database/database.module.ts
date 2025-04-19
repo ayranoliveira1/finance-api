@@ -3,7 +3,7 @@ import { PrismaService } from './prisma/prisma.service'
 import { UserRepository } from '@/domain/application/repositories/user-repository'
 import { PrimsaUserRepository } from './prisma/repositories/prisma-user-repository'
 import { TransactionRepository } from '@/domain/application/repositories/transaction-repository'
-import { PrismaTransactionRepository } from './prisma/repositories/prisma-transction-repository'
+import { PrismaTransactionRepository } from './prisma/repositories/prisma-transaction-repository'
 
 @Module({
   providers: [

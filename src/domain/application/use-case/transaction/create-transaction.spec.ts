@@ -5,13 +5,13 @@ import { makeTransaction } from 'test/factories/make-transaction'
 let inMemoryTransactionRepository: InMemoryTransactionRepository
 let sut: CreateTransactionUseCase
 
-describe('Register Use Case', () => {
+describe('Create Transaction Use Case', () => {
   beforeEach(() => {
     inMemoryTransactionRepository = new InMemoryTransactionRepository()
     sut = new CreateTransactionUseCase(inMemoryTransactionRepository)
   })
 
-  it('should be able to register a user', async () => {
+  it('should be able to create a transaction', async () => {
     const transaction = makeTransaction()
 
     const result = await sut.execute({
