@@ -23,24 +23,6 @@ export class PrismaTransactionRepository implements TransactionRepository {
     return PrismaTransactionMapper.toDomain(transaction)
   }
 
-  async create(transaction: Transaction) {
-    const data = PrismaTransactionMapper.toPrisma(transaction)
-
-    await this.prisma.transaction.create({
-      data,
-    })
-  }
-
-  async delete(transaction: Transaction) {
-    const data = PrismaTransactionMapper.toPrisma(transaction)
-
-    await this.prisma.transaction.delete({
-      where: {
-        id: data.id,
-      },
-    })
-  }
-
   async findManyRecents(
     userId: string,
     { page }: PaginationParms,
@@ -51,7 +33,7 @@ export class PrismaTransactionRepository implements TransactionRepository {
     const skip = (currentPage - 1) * pageSize
 
     const where: Record<string, unknown> = {
-      id: userId,
+      userId,
     }
 
     if (search) {
@@ -81,5 +63,23 @@ export class PrismaTransactionRepository implements TransactionRepository {
       currentPage,
       pageSize,
     }
+  }
+
+  async create(transaction: Transaction) {
+    const data = PrismaTransactionMapper.toPrisma(transaction)
+
+    await this.prisma.transaction.create({
+      data,
+    })
+  }
+
+  async delete(transaction: Transaction) {
+    const data = PrismaTransactionMapper.toPrisma(transaction)
+
+    await this.prisma.transaction.delete({
+      where: {
+        id: data.id,
+      },
+    })
   }
 }

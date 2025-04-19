@@ -9,6 +9,8 @@ import { RefreshTokenController } from './controllers/refresh-token.controller'
 import { RefreshTokenUseCase } from '@/domain/application/use-case/user/refresh-token'
 import { CreateTransactionController } from './controllers/create-transaction.controller'
 import { CreateTransactionUseCase } from '@/domain/application/use-case/transaction/create-transaction'
+import { FetchTransactionController } from './controllers/fetch-transaction.controller'
+import { FetchTransactionUseCase } from '@/domain/application/use-case/transaction/fetch-transaction'
 
 @Module({
   imports: [DataBaseModule, CryptographyModule],
@@ -17,12 +19,14 @@ import { CreateTransactionUseCase } from '@/domain/application/use-case/transact
     AuthenticateUserController,
     RefreshTokenController,
     CreateTransactionController,
+    FetchTransactionController,
   ],
   providers: [
     RegisterUseCase,
     AuthenticateUserUseCase,
     RefreshTokenUseCase,
     CreateTransactionUseCase,
+    FetchTransactionUseCase,
   ],
 })
 export class HttpModule {}
