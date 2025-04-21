@@ -11,6 +11,8 @@ import { CreateTransactionController } from './controllers/create-transaction.co
 import { CreateTransactionUseCase } from '@/domain/application/use-case/transaction/create-transaction'
 import { FetchTransactionController } from './controllers/fetch-transaction.controller'
 import { FetchTransactionUseCase } from '@/domain/application/use-case/transaction/fetch-transaction'
+import { DeleteTransactionController } from './controllers/delete-transaction.controller'
+import { DeleteTransactionUseCase } from '@/domain/application/use-case/transaction/delete-transaction'
 
 @Module({
   imports: [DataBaseModule, CryptographyModule],
@@ -20,6 +22,7 @@ import { FetchTransactionUseCase } from '@/domain/application/use-case/transacti
     RefreshTokenController,
     CreateTransactionController,
     FetchTransactionController,
+    DeleteTransactionController,
   ],
   providers: [
     RegisterUseCase,
@@ -27,6 +30,7 @@ import { FetchTransactionUseCase } from '@/domain/application/use-case/transacti
     RefreshTokenUseCase,
     CreateTransactionUseCase,
     FetchTransactionUseCase,
+    DeleteTransactionUseCase,
   ],
 })
 export class HttpModule {}
