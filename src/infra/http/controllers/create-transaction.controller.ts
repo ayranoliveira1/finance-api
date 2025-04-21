@@ -56,5 +56,9 @@ export class CreateTransactionController {
     if (result.isLeft()) {
       throw new BadRequestException(result.value)
     }
+
+    return {
+      id: result.value.transaction.id.toString(),
+    }
   }
 }

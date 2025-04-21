@@ -41,8 +41,6 @@ describe('Refresh token (E2E)', () => {
       .split(';')[0]
       .split('=')[1]
 
-    console.log('refreshToken', refreshToken)
-
     const refreshResponse = await request(app.getHttpServer())
       .post('/auth/refresh-token')
       .send({
