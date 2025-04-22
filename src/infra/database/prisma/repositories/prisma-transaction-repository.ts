@@ -65,6 +65,17 @@ export class PrismaTransactionRepository implements TransactionRepository {
     }
   }
 
+  async save(transaction: Transaction) {
+    const data = PrismaTransactionMapper.toPrisma(transaction)
+
+    await this.prisma.transaction.update({
+      where: {
+        id: data.id,
+      },
+      data,
+    })
+  }
+
   async create(transaction: Transaction) {
     const data = PrismaTransactionMapper.toPrisma(transaction)
 
