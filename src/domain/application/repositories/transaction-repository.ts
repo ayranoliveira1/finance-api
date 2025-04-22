@@ -9,6 +9,7 @@ export abstract class TransactionRepository {
     params?: PaginationParms,
     search?: string,
   ): Promise<TransactionPagination | null>
+  abstract save(transaction: Transaction): Promise<void>
   abstract create(transaction: Transaction): Promise<void>
   abstract delete(transaction: Transaction): Promise<void>
 }
