@@ -19,6 +19,7 @@ import { UserPayload } from '@/infra/auth/jwt-strategy'
 const createTransactionBodySchema = z.object({
   name: z.string(),
   amount: z.number(),
+  date: z.coerce.date(),
   category: z.nativeEnum(TransactionCategory),
   type: z.nativeEnum(TransactionType),
   paymentMethod: z.nativeEnum(TransactionPaymentMethod),
@@ -41,13 +42,13 @@ export class CreateTransactionController {
     createTransactionBodySchema.parse(body)
     const userId = user.sub
 
-    const { name, amount, category, type, paymentMethod } = body
+    const { name, amount, category, type, paymentMethod, date } = body
 
     const result = await this.createTransaction.execute({
       name,
       amount,
       userId,
-      date: new Date(),
+      date,
       category,
       paymentMethod,
       type,

@@ -41,6 +41,7 @@ describe('Fetch Transactions (E2E)', () => {
         name: 'Transaction 1',
         amount: 100,
         category: 'FOOD',
+        date: new Date(),
         type: 'EXPENSE',
         paymentMethod: 'CREDIT_CARD',
       })

@@ -40,11 +40,14 @@ describe('Delete Transaction (E2E)', () => {
       .send({
         name: 'Transaction 1',
         amount: 100,
+        date: new Date(),
         category: 'FOOD',
         type: 'EXPENSE',
         paymentMethod: 'CREDIT_CARD',
       })
       .set('Authorization', `Bearer ${user.body.token}`)
+
+    console.log(transaction.body.errors)
 
     const response = await request(app.getHttpServer())
       .delete('/transactions')

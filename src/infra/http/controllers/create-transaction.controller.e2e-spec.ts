@@ -41,11 +41,13 @@ describe('Create Transaction (E2E)', () => {
         name: 'Transaction 1',
         amount: 100,
         category: 'FOOD',
+        date: new Date(),
         type: 'EXPENSE',
         paymentMethod: 'CREDIT_CARD',
       })
       .set('Authorization', `Bearer ${user.body.token}`)
 
     expect(response.statusCode).toBe(201)
+    expect(response.body).toHaveProperty('id')
   })
 })
