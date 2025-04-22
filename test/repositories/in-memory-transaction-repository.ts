@@ -15,6 +15,12 @@ export class InMemoryTransactionRepository implements TransactionRepository {
     return transaction
   }
 
+  async save(transaction: Transaction) {
+    const index = this.items.findIndex((item) => item.id === transaction.id)
+
+    this.items[index] = transaction
+  }
+
   async create(transaction: Transaction) {
     this.items.push(transaction)
   }
