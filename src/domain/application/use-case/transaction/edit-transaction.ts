@@ -10,7 +10,7 @@ import { ResourceNotFoundError } from '@/core/@types/errors/resource-not-found-e
 import { NotAllowedError } from '@/core/@types/errors/not-allowed-error'
 
 interface EditTransactionUseCaseRequest {
-  TransactionId: string
+  transactionId: string
   name: string
   type: TransactionType
   category: TransactionCategory
@@ -30,7 +30,7 @@ export class EditTransactionUseCase {
   constructor(private transactionRepository: TransactionRepository) {}
 
   async execute({
-    TransactionId,
+    transactionId,
     name,
     type,
     category,
@@ -39,7 +39,7 @@ export class EditTransactionUseCase {
     userId,
     date,
   }: EditTransactionUseCaseRequest): Promise<EditTransactionUseCaseResponse> {
-    const transaction = await this.transactionRepository.findById(TransactionId)
+    const transaction = await this.transactionRepository.findById(transactionId)
 
     if (!transaction) {
       return left(new ResourceNotFoundError())
