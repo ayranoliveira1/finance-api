@@ -25,7 +25,7 @@ describe('Edit Transaction Use Case', () => {
     inMemoryTransactionRepository.create(transaction)
 
     const result = await sut.execute({
-      TransactionId: transaction.id.toString(),
+      transactionId: transaction.id.toString(),
       name: 'New Transaction',
       type: TransactionType.EXPENSE,
       category: TransactionCategory.FOOD,
@@ -45,7 +45,7 @@ describe('Edit Transaction Use Case', () => {
     inMemoryTransactionRepository.create(transaction)
 
     const result = await sut.execute({
-      TransactionId: 'non-existing-transaction-id',
+      transactionId: 'non-existing-transaction-id',
       name: 'New Transaction',
       type: TransactionType.EXPENSE,
       category: TransactionCategory.FOOD,
@@ -67,7 +67,7 @@ describe('Edit Transaction Use Case', () => {
     inMemoryTransactionRepository.create(transaction)
 
     const result = await sut.execute({
-      TransactionId: transaction.id.toString(),
+      transactionId: transaction.id.toString(),
       name: 'New Transaction',
       type: TransactionType.EXPENSE,
       category: TransactionCategory.FOOD,
