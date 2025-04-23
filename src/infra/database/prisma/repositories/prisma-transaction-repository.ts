@@ -28,7 +28,7 @@ export class PrismaTransactionRepository implements TransactionRepository {
     { page }: PaginationParms,
     search?: string,
   ) {
-    const pageSize = 12
+    const pageSize = 10
     const currentPage = page && page > 0 ? page : 1
     const skip = (currentPage - 1) * pageSize
 

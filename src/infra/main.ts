@@ -7,6 +7,11 @@ import { AppModule } from './app.module'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
+  app.enableCors({
+    origin: '*',
+    credentials: true,
+  })
+
   const swaggerConfig = new DocumentBuilder()
     .setTitle(' Ducoprint api')
     .setDescription('Ducoprint API Description')
