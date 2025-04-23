@@ -29,6 +29,7 @@ export default tseslint.config(
     rules: {
       quotes: ['error', 'single'],
       semi: 'off',
+      '@typescript-eslint/prefer-promise-reject-errors': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/unbound-method': 'off',
       '@typescript-eslint/require-await': 'off',
