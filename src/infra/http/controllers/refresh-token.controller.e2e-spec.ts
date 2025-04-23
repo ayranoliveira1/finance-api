@@ -43,11 +43,10 @@ describe('Refresh token (E2E)', () => {
 
     const refreshResponse = await request(app.getHttpServer())
       .post('/auth/refresh-token')
-      .send({
-        refreshToken,
-      })
-    expect(refreshResponse.statusCode).toBe(201)
+      .set('Cookie', `refresh_token=${refreshToken}`)
+      .send()
 
+    expect(refreshResponse.statusCode).toBe(201)
     expect(refreshResponse.body).toEqual(
       expect.objectContaining({
         token: expect.any(String),

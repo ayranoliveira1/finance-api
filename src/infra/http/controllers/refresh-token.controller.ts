@@ -1,42 +1,33 @@
 import { RefreshTokenUseCase } from '@/domain/application/use-case/user/refresh-token'
 import {
   BadRequestException,
-  Body,
   Controller,
   HttpCode,
   Post,
   Res,
   UnauthorizedException,
+  Req,
 } from '@nestjs/common'
-import { Response } from 'express'
-import { z } from 'zod'
-import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
+import { Request, Response } from 'express'
 import { InvalidCredentialsError } from '@/domain/application/use-case/errors/invalid-credentials-error'
-
-const refreshteBodySchema = z.object({
-  refreshToken: z.string(),
-})
-
-type RefreshteBodyType = z.infer<typeof refreshteBodySchema>
-
-const bodyValidationType = new ZodValidationPipe(refreshteBodySchema)
+import { Public } from '@/infra/auth/public'
 
 @Controller('/auth/refresh-token')
+@Public()
 export class RefreshTokenController {
   constructor(private refreshTokenUseCase: RefreshTokenUseCase) {}
 
   @Post()
   @HttpCode(201)
-  async handle(
-    @Body(bodyValidationType) body: RefreshteBodyType,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    refreshteBodySchema.parse(body)
+  async handle(@Res({ passthrough: true }) res: Response, @Req() req: Request) {
+    const refreshToken = req.headers.cookie?.split(';')[0].split('=')[1]
 
-    const { refreshToken } = body
+    if (!refreshToken) {
+      throw new BadRequestException('Refresh token not found')
+    }
 
     const result = await this.refreshTokenUseCase.execute({
-      refreshToken,
+      refreshToken: refreshToken,
     })
 
     if (result.isLeft()) {
@@ -50,7 +41,7 @@ export class RefreshTokenController {
       }
     }
 
-    res.cookie('refresh_token', refreshToken, {
+    res.cookie('refresh_token', result.value.refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
