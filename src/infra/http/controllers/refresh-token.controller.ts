@@ -1,5 +1,4 @@
 import { RefreshTokenUseCase } from '@/domain/application/use-case/user/refresh-token'
-import { Public } from '@/infra/auth/public'
 import {
   BadRequestException,
   Body,
@@ -23,7 +22,6 @@ type RefreshteBodyType = z.infer<typeof refreshteBodySchema>
 const bodyValidationType = new ZodValidationPipe(refreshteBodySchema)
 
 @Controller('/auth/refresh-token')
-@Public()
 export class RefreshTokenController {
   constructor(private refreshTokenUseCase: RefreshTokenUseCase) {}
 
