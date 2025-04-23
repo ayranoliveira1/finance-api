@@ -34,11 +34,11 @@ export class RefreshTokenUseCase {
     }
 
     const token = await this.encrypt.encrypt({
-      sub: user.id,
+      sub: user.id.toString(),
     })
 
     const newRefreshToken = await this.encrypt.encryptRefresh({
-      sub: user.id,
+      sub: user.id.toString(),
     })
 
     return right({
