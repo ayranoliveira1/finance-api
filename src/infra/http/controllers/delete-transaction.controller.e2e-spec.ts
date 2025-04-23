@@ -47,13 +47,8 @@ describe('Delete Transaction (E2E)', () => {
       })
       .set('Authorization', `Bearer ${user.body.token}`)
 
-    console.log(transaction.body.errors)
-
     const response = await request(app.getHttpServer())
-      .delete('/transactions')
-      .send({
-        transactionId: transaction.body.id,
-      })
+      .delete(`/transactions/${transaction.body.id}`)
       .set('Authorization', `Bearer ${user.body.token}`)
 
     expect(response.statusCode).toBe(204)
