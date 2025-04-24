@@ -15,9 +15,12 @@ import { DeleteTransactionController } from './controllers/delete-transaction.co
 import { DeleteTransactionUseCase } from '@/domain/application/use-case/transaction/delete-transaction'
 import { EditTransactionController } from './controllers/edit-transaction.controller'
 import { EditTransactionUseCase } from '@/domain/application/use-case/transaction/edit-transaction'
+import { CreateCheckoutStripeController } from './controllers/create-checkout-stripe.controller'
+import { CreateCheckoutStripeUseCase } from '@/domain/application/use-case/payment/create-checkout-stripe'
+import { StripeModule } from '../payment/stripe.module'
 
 @Module({
-  imports: [DataBaseModule, CryptographyModule],
+  imports: [DataBaseModule, CryptographyModule, StripeModule],
   controllers: [
     CreateAccountController,
     AuthenticateUserController,
@@ -26,6 +29,7 @@ import { EditTransactionUseCase } from '@/domain/application/use-case/transactio
     FetchTransactionController,
     DeleteTransactionController,
     EditTransactionController,
+    CreateCheckoutStripeController,
   ],
   providers: [
     RegisterUseCase,
@@ -35,6 +39,7 @@ import { EditTransactionUseCase } from '@/domain/application/use-case/transactio
     FetchTransactionUseCase,
     DeleteTransactionUseCase,
     EditTransactionUseCase,
+    CreateCheckoutStripeUseCase,
   ],
 })
 export class HttpModule {}
