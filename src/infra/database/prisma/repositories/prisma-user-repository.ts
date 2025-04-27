@@ -22,14 +22,6 @@ export class PrimsaUserRepository implements UserRepository {
     return PrismaUserMapper.toDomain(user)
   }
 
-  async create(user: User) {
-    const data = PrismaUserMapper.toPrisma(user)
-
-    await this.prisma.user.create({
-      data,
-    })
-  }
-
   async findById(id: string) {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -42,5 +34,23 @@ export class PrimsaUserRepository implements UserRepository {
     }
 
     return PrismaUserMapper.toDomain(user)
+  }
+
+  async create(user: User) {
+    const data = PrismaUserMapper.toPrisma(user)
+
+    await this.prisma.user.create({
+      data,
+    })
+  }
+
+  async delete(user: User) {
+    const data = PrismaUserMapper.toPrisma(user)
+
+    await this.prisma.user.delete({
+      where: {
+        id: data.id,
+      },
+    })
   }
 }

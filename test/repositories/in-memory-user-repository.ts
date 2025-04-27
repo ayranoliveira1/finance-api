@@ -14,10 +14,6 @@ export class InMemoryUserRepository implements UserRepository {
     return user
   }
 
-  async create(user: User) {
-    this.items.push(user)
-  }
-
   async findById(id: string) {
     const user = this.items.find((user) => user.id.toString() === id)
 
@@ -26,5 +22,15 @@ export class InMemoryUserRepository implements UserRepository {
     }
 
     return user
+  }
+
+  async create(user: User) {
+    this.items.push(user)
+  }
+
+  async delete(user: User) {
+    const userIndex = this.items.findIndex((item) => item.id === user.id)
+
+    this.items.splice(userIndex, 1)
   }
 }
