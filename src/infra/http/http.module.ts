@@ -18,6 +18,8 @@ import { EditTransactionUseCase } from '@/domain/application/use-case/transactio
 import { CreateCheckoutStripeController } from './controllers/create-checkout-stripe.controller'
 import { CreateCheckoutStripeUseCase } from '@/domain/application/use-case/payment/create-checkout-stripe'
 import { StripeModule } from '../payment/stripe.module'
+import { DeleteUserByUserController } from './controllers/delete-user-by-user.controller'
+import { DeleteUserByUserUseCase } from '@/domain/application/use-case/user/delete-user-by-user'
 
 @Module({
   imports: [DataBaseModule, CryptographyModule, StripeModule],
@@ -30,6 +32,7 @@ import { StripeModule } from '../payment/stripe.module'
     DeleteTransactionController,
     EditTransactionController,
     CreateCheckoutStripeController,
+    DeleteUserByUserController,
   ],
   providers: [
     RegisterUseCase,
@@ -40,6 +43,7 @@ import { StripeModule } from '../payment/stripe.module'
     DeleteTransactionUseCase,
     EditTransactionUseCase,
     CreateCheckoutStripeUseCase,
+    DeleteUserByUserUseCase,
   ],
 })
 export class HttpModule {}
