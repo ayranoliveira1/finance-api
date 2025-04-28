@@ -7,7 +7,7 @@ import {
   HttpCode,
   Post,
 } from '@nestjs/common'
-import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
+import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
 import { z } from 'zod'
 import { UserAlreadyExistsError } from '@/domain/application/use-case/errors/user-already-exists-error'
 import { Public } from '@/infra/auth/public'

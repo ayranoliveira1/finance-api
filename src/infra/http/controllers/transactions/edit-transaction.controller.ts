@@ -15,11 +15,11 @@ import {
   Put,
 } from '@nestjs/common'
 import { z } from 'zod'
-import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt-strategy'
 import { ResourceNotFoundError } from '@/core/@types/errors/resource-not-found-error'
 import { NotAllowedError } from '@/core/@types/errors/not-allowed-error'
+import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
 
 const editTransactionBodySchema = z.object({
   name: z.string(),

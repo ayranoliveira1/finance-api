@@ -4,6 +4,7 @@ import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { hash } from 'bcryptjs'
 import request from 'supertest'
+import { waitFor } from 'test/utils/wait-for'
 
 describe('Create Checkout stripe (E2E)', () => {
   let app: INestApplication
@@ -40,7 +41,9 @@ describe('Create Checkout stripe (E2E)', () => {
       .send()
       .set('Authorization', `Bearer ${user.body.token}`)
 
-    expect(response.statusCode).toBe(201)
-    expect(response.body).toHaveProperty('checkout_url')
+    await waitFor(() => {
+      expect(response.statusCode).toBe(201)
+      expect(response.body).toHaveProperty('checkout_url')
+    })
   })
 })

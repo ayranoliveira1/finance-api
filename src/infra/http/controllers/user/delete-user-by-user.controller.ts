@@ -8,12 +8,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common'
 import { z } from 'zod'
-import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { DeleteUserByUserUseCase } from '@/domain/application/use-case/user/delete-user-by-user'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt-strategy'
 import { ResourceNotFoundError } from '@/core/@types/errors/resource-not-found-error'
 import { InvalidCredentialsError } from '@/domain/application/use-case/errors/invalid-credentials-error'
+import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
 
 const deleteUserByUserBodySchema = z.object({
   password: z.string().min(8),

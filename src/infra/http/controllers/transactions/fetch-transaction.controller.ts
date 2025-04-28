@@ -9,7 +9,7 @@ import {
   NotFoundException,
   Query,
 } from '@nestjs/common'
-import { TransactionPresenter } from '../presenters/transaction-presenter'
+import { TransactionPresenter } from '../../presenters/transaction-presenter'
 
 @Controller('/transactions')
 export class FetchTransactionController {

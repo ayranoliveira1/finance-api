@@ -11,9 +11,9 @@ import {
 } from '@nestjs/common'
 import { z } from 'zod'
 import { Response } from 'express'
-import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
+import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
 import { InvalidCredentialsError } from '@/domain/application/use-case/errors/invalid-credentials-error'
-import { UserPresenter } from '../presenters/user-presenter'
+import { UserPresenter } from '../../presenters/user-presenter'
 
 const authenticateBodySchema = z.object({
   email: z.string().email(),
