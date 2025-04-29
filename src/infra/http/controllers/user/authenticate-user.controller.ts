@@ -13,7 +13,6 @@ import { z } from 'zod'
 import { Response } from 'express'
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
 import { InvalidCredentialsError } from '@/domain/application/use-case/errors/invalid-credentials-error'
-import { UserPresenter } from '../../presenters/user-presenter'
 
 const authenticateBodySchema = z.object({
   email: z.string().email(),
@@ -55,7 +54,7 @@ export class AuthenticateUserController {
       }
     }
 
-    const { token, user, refreshToken } = result.value
+    const { token, refreshToken } = result.value
 
     res.cookie('refresh_token', refreshToken, {
       httpOnly: true,
@@ -66,7 +65,6 @@ export class AuthenticateUserController {
 
     return {
       token: token,
-      user: UserPresenter.toHttp(user),
     }
   }
 }
