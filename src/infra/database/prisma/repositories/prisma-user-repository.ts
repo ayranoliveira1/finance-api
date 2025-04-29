@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma.service'
 import { Injectable } from '@nestjs/common'
 import { PrismaUserMapper } from '../mappers/prisma-user-mapper'
 import { User } from '@/domain/enterprise/entities/user'
+import { SubscriptionPlan } from '@/core/@types/enums'
 
 @Injectable()
 export class PrimsaUserRepository implements UserRepository {
@@ -50,6 +51,20 @@ export class PrimsaUserRepository implements UserRepository {
     await this.prisma.user.delete({
       where: {
         id: data.id,
+      },
+    })
+  }
+
+  async updatePlan(userID: string, plan: string) {
+    const planUser =
+      plan === 'premium' ? SubscriptionPlan.PREMIUM : SubscriptionPlan.FREE
+
+    await this.prisma.user.update({
+      where: {
+        id: userID,
+      },
+      data: {
+        subscriptionPlan: planUser,
       },
     })
   }

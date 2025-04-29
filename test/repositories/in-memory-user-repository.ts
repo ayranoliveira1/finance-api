@@ -33,4 +33,16 @@ export class InMemoryUserRepository implements UserRepository {
 
     this.items.splice(userIndex, 1)
   }
+
+  async updatePlan(userID: string, plan: string) {
+    const userIndex = this.items.findIndex(
+      (item) => item.id.toString() === userID,
+    )
+
+    const planUser = plan === 'premium' ? 'PREMIUM' : 'FREE'
+
+    if (userIndex !== -1) {
+      this.items[userIndex].subscriptionPlan = planUser
+    }
+  }
 }
