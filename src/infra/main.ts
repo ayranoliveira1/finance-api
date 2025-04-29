@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core'
 
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { EnvService } from './env/env.service'
+import * as bodyParser from 'body-parser'
 import { AppModule } from './app.module'
 
 async function bootstrap() {
@@ -11,6 +12,20 @@ async function bootstrap() {
     origin: '*',
     credentials: true,
   })
+
+  app.use(
+    '/webhook/stripe',
+    bodyParser.raw({
+      type: 'application/json',
+      limit: '2mb',
+      verify: (req: any, buf, encoding) => {
+        if (buf && buf.length) {
+          req.rawBody = buf.toString(encoding || 'utf8')
+        }
+        return true
+      },
+    }),
+  )
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle(' Ducoprint api')

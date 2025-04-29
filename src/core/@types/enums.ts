@@ -25,3 +25,8 @@ export enum TransactionPaymentMethod {
   PIX = 'PIX',
   OTHER = 'OTHER',
 }
+
+export enum SubscriptionPlan {
+  FREE = 'FREE',
+  PREMIUM = 'PREMIUM',
+}

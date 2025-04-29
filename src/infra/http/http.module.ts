@@ -20,6 +20,8 @@ import { CreateTransactionController } from './controllers/transactions/create-t
 import { FetchTransactionController } from './controllers/transactions/fetch-transaction.controller'
 import { EditTransactionController } from './controllers/transactions/edit-transaction.controller'
 import { CreateCheckoutStripeController } from './controllers/create-checkout-stripe.controller'
+import { StripeWebhookController } from './controllers/stripe-webhook.controller'
+import { StripeWebhookUseCase } from '@/domain/application/use-case/payment/stripe-webhook'
 
 @Module({
   imports: [DataBaseModule, CryptographyModule, StripeModule],
@@ -33,6 +35,7 @@ import { CreateCheckoutStripeController } from './controllers/create-checkout-st
     EditTransactionController,
     CreateCheckoutStripeController,
     DeleteUserByUserController,
+    StripeWebhookController,
   ],
   providers: [
     RegisterUseCase,
@@ -44,6 +47,7 @@ import { CreateCheckoutStripeController } from './controllers/create-checkout-st
     EditTransactionUseCase,
     CreateCheckoutStripeUseCase,
     DeleteUserByUserUseCase,
+    StripeWebhookUseCase,
   ],
 })
 export class HttpModule {}
