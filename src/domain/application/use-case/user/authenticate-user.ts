@@ -1,6 +1,5 @@
 import { Either, left, right } from '@/core/either'
 import { InvalidCredentialsError } from '../errors/invalid-credentials-error'
-import { User } from '@/domain/enterprise/entities/user'
 import { HashCompare } from '../../cryptography/hash-compare'
 import { Encrypter } from '../../cryptography/encrypter'
 import { Injectable } from '@nestjs/common'
@@ -14,7 +13,6 @@ interface AuthenticateUserUseCaseRequest {
 type AuthenticateUserUseCaseResponse = Either<
   InvalidCredentialsError,
   {
-    user: User
     token: string
     refreshToken: string
   }
@@ -58,7 +56,6 @@ export class AuthenticateUserUseCase {
     return right({
       token,
       refreshToken,
-      user,
     })
   }
 }
