@@ -26,13 +26,29 @@ export class StripeInfraMethods implements StripeMethods {
         },
       ],
       mode: 'subscription',
-      success_url: process.env.APP_URL!,
-      cancel_url: process.env.APP_URL!,
+      success_url: `${process.env.APP_URL!}/success`,
+      cancel_url: `${process.env.APP_URL!}/cancel`,
       customer_email: email,
       client_reference_id: userId,
-      metadata: { userId },
+      metadata: {
+        userId: userId,
+        userEmail: email,
+      },
+      subscription_data: {
+        metadata: {
+          userId: userId,
+        },
+      },
     })
 
     return session.url
+  }
+
+  async constructEvent(payload: string, signature: string) {
+    return this.stripe.webhooks.constructEvent(
+      payload,
+      signature,
+      this.envService.get('STRIPE_WEBHOOK_SECRET'),
+    )
   }
 }
