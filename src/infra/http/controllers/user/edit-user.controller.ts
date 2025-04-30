@@ -20,7 +20,7 @@ import { ResourceNotFoundError } from '@/core/@types/errors/resource-not-found-e
 const editUserBodySchema = z.object({
   name: z.string().min(1).max(50).optional(),
   email: z.string().email().optional(),
-  confirmPassword: z.string().min(8).max(50).optional(),
+  currentPassword: z.string().min(8).max(50).optional(),
   newPassword: z.string().min(8).max(50).optional(),
 })
 
@@ -40,7 +40,7 @@ export class EditUserController {
   ) {
     editUserBodySchema.parse(body)
 
-    const { name, email, confirmPassword, newPassword } = body
+    const { name, email, currentPassword, newPassword } = body
 
     const userId = user.sub
 
@@ -48,7 +48,7 @@ export class EditUserController {
       userId,
       name,
       email,
-      confirmPassword,
+      currentPassword,
       newPassword,
     })
 

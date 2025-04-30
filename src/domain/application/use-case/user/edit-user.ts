@@ -11,7 +11,7 @@ interface EditUserUseCaseRequest {
   userId: string
   name?: string
   email?: string
-  confirmPassword?: string
+  currentPassword?: string
   newPassword?: string
 }
 
@@ -32,7 +32,7 @@ export class EditUserUseCase {
     userId,
     name,
     email,
-    confirmPassword,
+    currentPassword,
     newPassword,
   }: EditUserUseCaseRequest): Promise<EditUserUseCaseResponse> {
     const user = await this.userRepository.findById(userId)
@@ -41,17 +41,17 @@ export class EditUserUseCase {
       return left(new ResourceNotFoundError())
     }
 
-    if (confirmPassword && !newPassword) {
+    if (currentPassword && !newPassword) {
       return left(new ResourceNotFoundError())
     }
 
-    if (!confirmPassword && newPassword) {
+    if (!currentPassword && newPassword) {
       return left(new InvalidCredentialsError())
     }
 
-    if (confirmPassword && newPassword) {
+    if (currentPassword && newPassword) {
       const passwordIsValid = await this.hashCompare.compare(
-        confirmPassword,
+        currentPassword,
         user.password,
       )
 

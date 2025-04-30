@@ -74,7 +74,7 @@ describe('Edit User', () => {
 
     const result = await sut.execute({
       userId: user.id.toString(),
-      confirmPassword: 'any_password',
+      currentPassword: 'any_password',
       newPassword: 'new_password',
     })
 
@@ -91,7 +91,7 @@ describe('Edit User', () => {
 
     const result = await sut.execute({
       userId: user.id.toString(),
-      confirmPassword: 'wrong_password',
+      currentPassword: 'wrong_password',
       newPassword: 'new_password',
     })
 
@@ -99,7 +99,7 @@ describe('Edit User', () => {
     expect(result.value).toBeInstanceOf(InvalidCredentialsError)
   })
 
-  it('should not allow editing password without confirmPassword', async () => {
+  it('should not allow editing password without currentPassword', async () => {
     const user = makeUser({
       password: await fakerHash.hash('any_password'),
     })
@@ -124,7 +124,7 @@ describe('Edit User', () => {
 
     const result = await sut.execute({
       userId: user.id.toString(),
-      confirmPassword: 'any_password',
+      currentPassword: 'any_password',
     })
 
     expect(result.isLeft()).toBe(true)
@@ -140,7 +140,7 @@ describe('Edit User', () => {
 
     const result = await sut.execute({
       userId: 'wrong_id',
-      confirmPassword: 'any_password',
+      currentPassword: 'any_password',
       newPassword: 'new_password',
     })
 

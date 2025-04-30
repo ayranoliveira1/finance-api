@@ -57,7 +57,7 @@ describe('Edit user (E2E)', () => {
     const response = await request(app.getHttpServer())
       .patch('/user')
       .send({
-        confirmPassword: '12345678',
+        currentPassword: '12345678',
         newPassword: '87654321',
       })
       .set('Authorization', `Bearer ${login.body.token}`)
