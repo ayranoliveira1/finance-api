@@ -147,4 +147,19 @@ describe('Edit User', () => {
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
+
+  it('should not allow editing user with empty body', async () => {
+    const user = makeUser({
+      password: await fakerHash.hash('any_password'),
+    })
+
+    await inMemoryUserRepository.create(user)
+
+    const result = await sut.execute({
+      userId: user.id.toString(),
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
+  })
 })

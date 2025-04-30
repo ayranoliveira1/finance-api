@@ -41,6 +41,10 @@ export class EditUserUseCase {
       return left(new ResourceNotFoundError())
     }
 
+    if (!name && !email && !currentPassword && !newPassword) {
+      return left(new ResourceNotFoundError())
+    }
+
     if (currentPassword && !newPassword) {
       return left(new ResourceNotFoundError())
     }
