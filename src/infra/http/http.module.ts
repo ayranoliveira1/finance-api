@@ -24,6 +24,8 @@ import { StripeWebhookController } from './controllers/stripe-webhook.controller
 import { StripeWebhookUseCase } from '@/domain/application/use-case/payment/stripe-webhook'
 import { GetUserUseCase } from '@/domain/application/use-case/user/get-user'
 import { GetUserController } from './controllers/user/get-user.controller'
+import { EditUserController } from './controllers/user/edit-user.controller'
+import { EditUserUseCase } from '@/domain/application/use-case/user/edit-user'
 
 @Module({
   imports: [DataBaseModule, CryptographyModule, StripeModule],
@@ -32,6 +34,7 @@ import { GetUserController } from './controllers/user/get-user.controller'
     AuthenticateUserController,
     RefreshTokenController,
     GetUserController,
+    EditUserController,
     CreateTransactionController,
     FetchTransactionController,
     DeleteTransactionController,
@@ -45,6 +48,7 @@ import { GetUserController } from './controllers/user/get-user.controller'
     AuthenticateUserUseCase,
     RefreshTokenUseCase,
     GetUserUseCase,
+    EditUserUseCase,
     CreateTransactionUseCase,
     FetchTransactionUseCase,
     DeleteTransactionUseCase,
