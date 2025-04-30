@@ -68,4 +68,15 @@ export class PrimsaUserRepository implements UserRepository {
       },
     })
   }
+
+  async save(user: User) {
+    const data = PrismaUserMapper.toPrisma(user)
+
+    await this.prisma.user.update({
+      where: {
+        id: data.id,
+      },
+      data,
+    })
+  }
 }

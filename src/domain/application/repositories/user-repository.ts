@@ -6,4 +6,5 @@ export abstract class UserRepository {
   abstract create(user: User): Promise<void>
   abstract delete(user: User): Promise<void>
   abstract updatePlan(userID: string, plan: string): Promise<void>
+  abstract save(user: User): Promise<void>
 }

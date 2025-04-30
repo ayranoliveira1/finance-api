@@ -45,4 +45,14 @@ export class InMemoryUserRepository implements UserRepository {
       this.items[userIndex].subscriptionPlan = planUser
     }
   }
+
+  async save(user: User) {
+    const userIndex = this.items.findIndex((item) => item.id === user.id)
+
+    if (userIndex !== -1) {
+      this.items[userIndex] = user
+    } else {
+      this.items.push(user)
+    }
+  }
 }
