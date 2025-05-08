@@ -41,8 +41,6 @@ describe('Edit User', () => {
       email: 'test1@gmail.com',
     })
 
-    console.log(result)
-
     expect(result.isRight()).toBe(true)
     expect(inMemoryUserRepository.items[0].email).toBe('test1@gmail.com')
   })
