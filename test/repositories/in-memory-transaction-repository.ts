@@ -77,4 +77,24 @@ export class InMemoryTransactionRepository implements TransactionRepository {
 
     return filteredItems.length
   }
+
+  async getLastTransactions(userId: string, month: string, year: string) {
+    const filteredItems = this.items.filter((item) => {
+      return (
+        item.userId.toString() === userId &&
+        item.createdAt.getMonth() === Number(month) &&
+        item.createdAt.getFullYear() === Number(year)
+      )
+    })
+
+    const sortedItems = filteredItems.sort(
+      (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
+    )
+
+    if (sortedItems.length === 0) {
+      return null
+    }
+
+    return sortedItems.slice(0, 5)
+  }
 }

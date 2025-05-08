@@ -83,6 +83,28 @@ export class PrismaTransactionRepository implements TransactionRepository {
     return transactions
   }
 
+  async getLastTransactions(userId: string, month: string, year: string) {
+    const transactions = await this.prisma.transaction.findMany({
+      where: {
+        userId,
+        createdAt: {
+          gte: new Date(`${year}-${month}-01`),
+          lte: new Date(`${year}-${month}-31`),
+        },
+      },
+      take: 5,
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+
+    if (!transactions || transactions.length === 0) {
+      return null
+    }
+
+    return transactions.map(PrismaTransactionMapper.toDomain)
+  }
+
   async save(transaction: Transaction) {
     const data = PrismaTransactionMapper.toPrisma(transaction)
 
