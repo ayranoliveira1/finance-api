@@ -9,6 +9,11 @@ export abstract class TransactionRepository {
     params?: PaginationParms,
     search?: string,
   ): Promise<TransactionPagination | null>
+  abstract getCurrentMonthTransactionsCount(
+    userId: string,
+    start: Date,
+    end: Date,
+  ): Promise<number>
   abstract save(transaction: Transaction): Promise<void>
   abstract create(transaction: Transaction): Promise<void>
   abstract delete(transaction: Transaction): Promise<void>

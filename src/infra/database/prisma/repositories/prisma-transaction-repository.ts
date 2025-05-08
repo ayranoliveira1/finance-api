@@ -65,6 +65,24 @@ export class PrismaTransactionRepository implements TransactionRepository {
     }
   }
 
+  async getCurrentMonthTransactionsCount(
+    userId: string,
+    start: Date,
+    end: Date,
+  ): Promise<number> {
+    const transactions = await this.prisma.transaction.count({
+      where: {
+        userId,
+        createdAt: {
+          gte: start,
+          lte: end,
+        },
+      },
+    })
+
+    return transactions
+  }
+
   async save(transaction: Transaction) {
     const data = PrismaTransactionMapper.toPrisma(transaction)
 

@@ -61,4 +61,20 @@ export class InMemoryTransactionRepository implements TransactionRepository {
       pageSize: 20,
     }
   }
+
+  async getCurrentMonthTransactionsCount(
+    userId: string,
+    start: Date,
+    end: Date,
+  ) {
+    const filteredItems = this.items.filter((item) => {
+      return (
+        item.userId.toString() === userId &&
+        item.createdAt >= start &&
+        item.createdAt <= end
+      )
+    })
+
+    return filteredItems.length
+  }
 }
