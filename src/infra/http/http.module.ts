@@ -26,6 +26,8 @@ import { GetUserUseCase } from '@/domain/application/use-case/user/get-user'
 import { GetUserController } from './controllers/user/get-user.controller'
 import { EditUserController } from './controllers/user/edit-user.controller'
 import { EditUserUseCase } from '@/domain/application/use-case/user/edit-user'
+import { GetCurrentMonthTransactionsCountController } from './controllers/transactions/get-current-month-transactions-count.controller'
+import { GetCurrentMonthTransactionsCountUseCase } from '@/domain/application/use-case/transaction/get-current-month-transactions-count'
 
 @Module({
   imports: [DataBaseModule, CryptographyModule, StripeModule],
@@ -39,6 +41,7 @@ import { EditUserUseCase } from '@/domain/application/use-case/user/edit-user'
     FetchTransactionController,
     DeleteTransactionController,
     EditTransactionController,
+    GetCurrentMonthTransactionsCountController,
     CreateCheckoutStripeController,
     DeleteUserByUserController,
     StripeWebhookController,
@@ -56,6 +59,7 @@ import { EditUserUseCase } from '@/domain/application/use-case/user/edit-user'
     CreateCheckoutStripeUseCase,
     DeleteUserByUserUseCase,
     StripeWebhookUseCase,
+    GetCurrentMonthTransactionsCountUseCase,
   ],
 })
 export class HttpModule {}
