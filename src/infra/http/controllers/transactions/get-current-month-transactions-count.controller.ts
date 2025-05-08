@@ -10,13 +10,13 @@ import {
 } from '@nestjs/common'
 import { endOfMonth, startOfMonth } from 'date-fns'
 
-@Controller()
+@Controller('/transactions/current-month/count')
 export class GetCurrentMonthTransactionsCountController {
   constructor(
     private getCurrentMonthTransactionsCount: GetCurrentMonthTransactionsCountUseCase,
   ) {}
 
-  @Get('/transactions/current-month/count')
+  @Get()
   async handle(@CurrentUser() user: UserPayload) {
     const userId = user.sub
 
