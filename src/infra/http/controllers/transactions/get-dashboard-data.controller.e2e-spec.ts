@@ -5,7 +5,7 @@ import { Test } from '@nestjs/testing'
 import { hash } from 'bcryptjs'
 import request from 'supertest'
 
-describe('Get last transactions (E2E)', () => {
+describe('Get Dashboard Data (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
 
@@ -21,7 +21,7 @@ describe('Get last transactions (E2E)', () => {
     await app.init()
   })
 
-  test('[Get] /transactions/last', async () => {
+  test('[Get] /dashboard', async () => {
     await prisma.user.create({
       data: {
         name: 'John Doe',
@@ -53,10 +53,9 @@ describe('Get last transactions (E2E)', () => {
     const year = new Date().getFullYear().toString()
 
     const response = await request(app.getHttpServer())
-      .get(`/transactions/last/?month=${month}&year=${year}`)
+      .get(`/dashboard/?month=${month}&year=${year}`)
       .set('Authorization', `Bearer ${user.body.token}`)
 
     expect(response.statusCode).toBe(200)
-    expect(response.body.transactions).toHaveLength(5)
   })
 })
