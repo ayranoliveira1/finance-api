@@ -43,8 +43,6 @@ describe('Edit user (E2E)', () => {
       })
       .set('Authorization', `Bearer ${login.body.token}`)
 
-    console.log(response.body)
-
     expect(response.statusCode).toBe(204)
   })
 
@@ -61,8 +59,6 @@ describe('Edit user (E2E)', () => {
         newPassword: '87654321',
       })
       .set('Authorization', `Bearer ${login.body.token}`)
-
-    console.log(response.body)
 
     expect(response.statusCode).toBe(204)
   })

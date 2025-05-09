@@ -98,7 +98,7 @@ export class PrismaTransactionRepository implements TransactionRepository {
       },
     })
 
-    if (!transactions || transactions.length === 0) {
+    if (!transactions) {
       return null
     }
 
