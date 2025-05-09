@@ -1,3 +1,5 @@
+import { TransactionCategory, TransactionType } from '@/core/@types/enums'
+import { DashboardData } from '@/core/repositories/dashboard-data'
 import { PaginationParms } from '@/core/repositories/pagination-params'
 import { TransactionRepository } from '@/domain/application/repositories/transaction-repository'
 import { Transaction } from '@/domain/enterprise/entities/transaction'
@@ -96,5 +98,88 @@ export class InMemoryTransactionRepository implements TransactionRepository {
     }
 
     return sortedItems.slice(0, 5)
+  }
+
+  async getDashboard(
+    userId: string,
+    month: string,
+    year: string,
+  ): Promise<DashboardData | null> {
+    const filteredItems = this.items.filter((item) => {
+      return (
+        item.userId.toString() === userId &&
+        item.createdAt.getMonth() === Number(month) &&
+        item.createdAt.getFullYear() === Number(year)
+      )
+    })
+
+    if (filteredItems.length === 0) {
+      return null
+    }
+
+    const depositTotal = filteredItems
+      .filter((item) => item.type === TransactionType.DEPOSIT)
+      .reduce((acc, item) => acc + item.amount, 0)
+
+    const investmentTotal = filteredItems
+      .filter((item) => item.type === TransactionType.INVESTMENT)
+      .reduce((acc, item) => acc + item.amount, 0)
+
+    const expensesTotal = filteredItems
+      .filter((item) => item.type === TransactionType.EXPENSE)
+      .reduce((acc, item) => acc + item.amount, 0)
+
+    const balanc = depositTotal - investmentTotal - expensesTotal
+
+    const typesPercentage = {
+      [TransactionType.DEPOSIT]: Math.round(
+        (Number(depositTotal || 0) /
+          Number(depositTotal + investmentTotal + expensesTotal)) *
+          100,
+      ),
+      [TransactionType.EXPENSE]: Math.round(
+        (Number(expensesTotal || 0) /
+          Number(depositTotal + investmentTotal + expensesTotal)) *
+          100,
+      ),
+      [TransactionType.INVESTMENT]: Math.round(
+        (Number(investmentTotal || 0) /
+          Number(depositTotal + investmentTotal + expensesTotal)) *
+          100,
+      ),
+    }
+
+    const totalExpensePerCategory: {
+      category: TransactionCategory
+      totalAmount: number
+      percentageOfTotal: number
+    }[] = {
+      ...Object.values(TransactionCategory).map((category) => {
+        const totalAmount = filteredItems
+          .filter(
+            (item) =>
+              item.type === TransactionType.EXPENSE &&
+              item.category === category,
+          )
+          .reduce((acc, item) => acc + item.amount, 0)
+
+        const percentageOfTotal = (totalAmount / expensesTotal) * 100 || 0
+
+        return {
+          category,
+          totalAmount,
+          percentageOfTotal,
+        }
+      }),
+    }
+
+    return {
+      balanc,
+      depositTotal,
+      investmentTotal,
+      expensesTotal,
+      typesPercentage,
+      totalExpensePerCategory,
+    }
   }
 }

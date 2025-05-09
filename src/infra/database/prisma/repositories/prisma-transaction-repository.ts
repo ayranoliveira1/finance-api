@@ -4,6 +4,10 @@ import { PrismaTransactionMapper } from '../mappers/prisma-transaction-mapper'
 import { Transaction } from '@/domain/enterprise/entities/transaction'
 import { PrismaService } from '../prisma.service'
 import { PaginationParms } from '@/core/repositories/pagination-params'
+import { DashboardData } from '@/core/repositories/dashboard-data'
+import { TransactionPercentagePerType } from '@/core/@types/transaction-percentage-per-type'
+import { TransactionType } from '@/core/@types/enums'
+import { TotalExpensePerCategory } from '../@types/total-expense-per-category'
 
 @Injectable()
 export class PrismaTransactionRepository implements TransactionRepository {
@@ -103,6 +107,92 @@ export class PrismaTransactionRepository implements TransactionRepository {
     }
 
     return transactions.map(PrismaTransactionMapper.toDomain)
+  }
+
+  async getDashboard(
+    userId: string,
+    month: string,
+    year: string,
+  ): Promise<DashboardData | null> {
+    const where = {
+      userId,
+      date: {
+        gte: new Date(`${year}-${month}-01`),
+        lt: new Date(`${year}-${month}-31`),
+      },
+    }
+
+    const depositTotal = (
+      await this.prisma.transaction.aggregate({
+        where: { ...where, type: 'DEPOSIT' },
+        _sum: { amount: true },
+      })
+    )._sum.amount
+
+    const investmentTotal = (
+      await this.prisma.transaction.aggregate({
+        where: { ...where, type: 'INVESTMENT' },
+        _sum: { amount: true },
+      })
+    )._sum.amount
+
+    const expensesTotal = (
+      await this.prisma.transaction.aggregate({
+        where: { ...where, type: 'EXPENSE' },
+        _sum: { amount: true },
+      })
+    )._sum.amount
+
+    const balanc =
+      Number(depositTotal) - Number(investmentTotal) - Number(expensesTotal)
+
+    const transactionsTotal = Number(
+      (
+        await this.prisma.transaction.aggregate({
+          where,
+          _sum: { amount: true },
+        })
+      )._sum.amount,
+    )
+    const typesPercentage: TransactionPercentagePerType = {
+      [TransactionType.DEPOSIT]: Math.round(
+        (Number(depositTotal || 0) / Number(transactionsTotal)) * 100,
+      ),
+      [TransactionType.EXPENSE]: Math.round(
+        (Number(expensesTotal || 0) / Number(transactionsTotal)) * 100,
+      ),
+      [TransactionType.INVESTMENT]: Math.round(
+        (Number(investmentTotal || 0) / Number(transactionsTotal)) * 100,
+      ),
+    }
+
+    const totalExpensePerCategory: TotalExpensePerCategory[] = (
+      await this.prisma.transaction.groupBy({
+        by: ['category'],
+        where: {
+          ...where,
+          type: TransactionType.EXPENSE,
+        },
+        _sum: {
+          amount: true,
+        },
+      })
+    ).map((category) => ({
+      category: category.category,
+      totalAmount: Number(category._sum.amount),
+      percentageOfTotal: Math.round(
+        (Number(category._sum.amount) / Number(expensesTotal)) * 100,
+      ),
+    }))
+
+    return {
+      balanc,
+      depositTotal: Number(depositTotal),
+      investmentTotal: Number(investmentTotal),
+      expensesTotal: Number(expensesTotal),
+      typesPercentage,
+      totalExpensePerCategory,
+    }
   }
 
   async save(transaction: Transaction) {
