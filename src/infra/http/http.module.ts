@@ -30,6 +30,8 @@ import { GetCurrentMonthTransactionsCountController } from './controllers/transa
 import { GetCurrentMonthTransactionsCountUseCase } from '@/domain/application/use-case/transaction/get-current-month-transactions-count'
 import { GetLastTransactionsUseCase } from '@/domain/application/use-case/transaction/get-last-transactions'
 import { GetLastTransactionsController } from './controllers/transactions/get-last-transactions.controller'
+import { GetDashboardDataController } from './controllers/transactions/get-dashboard-data.controller'
+import { GetDashboardDataUseCase } from '@/domain/application/use-case/transaction/get-dashboard-data'
 
 @Module({
   imports: [DataBaseModule, CryptographyModule, StripeModule],
@@ -45,6 +47,7 @@ import { GetLastTransactionsController } from './controllers/transactions/get-la
     EditTransactionController,
     GetCurrentMonthTransactionsCountController,
     GetLastTransactionsController,
+    GetDashboardDataController,
     CreateCheckoutStripeController,
     DeleteUserByUserController,
     StripeWebhookController,
@@ -61,6 +64,7 @@ import { GetLastTransactionsController } from './controllers/transactions/get-la
     EditTransactionUseCase,
     GetCurrentMonthTransactionsCountUseCase,
     GetLastTransactionsUseCase,
+    GetDashboardDataUseCase,
     CreateCheckoutStripeUseCase,
     DeleteUserByUserUseCase,
     StripeWebhookUseCase,
