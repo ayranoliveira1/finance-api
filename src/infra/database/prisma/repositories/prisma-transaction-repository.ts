@@ -73,7 +73,17 @@ export class PrismaTransactionRepository implements TransactionRepository {
     userId: string,
     start: Date,
     end: Date,
-  ): Promise<number> {
+  ): Promise<number | null> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    })
+
+    if (!user) {
+      return null
+    }
+
     const transactions = await this.prisma.transaction.count({
       where: {
         userId,

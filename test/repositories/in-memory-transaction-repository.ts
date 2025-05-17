@@ -77,6 +77,10 @@ export class InMemoryTransactionRepository implements TransactionRepository {
       )
     })
 
+    if (filteredItems.length === 0) {
+      return null
+    }
+
     return filteredItems.length
   }
 
