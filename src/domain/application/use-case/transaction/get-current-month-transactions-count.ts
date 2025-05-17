@@ -30,7 +30,7 @@ export class GetCurrentMonthTransactionsCountUseCase {
         end,
       )
 
-    if (!result) {
+    if (result === undefined) {
       return left(new ResourceNotFoundError())
     }
 

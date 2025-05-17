@@ -84,6 +84,10 @@ export class PrismaTransactionRepository implements TransactionRepository {
       },
     })
 
+    if (!transactions) {
+      return 0
+    }
+
     return transactions
   }
 
