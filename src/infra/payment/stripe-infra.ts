@@ -51,4 +51,34 @@ export class StripeInfraMethods implements StripeMethods {
       this.envService.get('STRIPE_WEBHOOK_SECRET'),
     )
   }
+
+  async cancelSubscription(subscriptionId: string) {
+    const subscription = await this.stripe.subscriptions.cancel(subscriptionId)
+
+    if (!subscription) {
+      return null
+    }
+
+    return subscription
+  }
+
+  async listSubscriptionsByEmail(email: string) {
+    const customers = await this.stripe.customers.list({ email, limit: 1 })
+
+    if (customers.data.length === 0) {
+      return null
+    }
+
+    const customerId = customers.data[0].id
+
+    const subscriptions = await this.stripe.subscriptions.list({
+      customer: customerId,
+    })
+
+    if (!subscriptions) {
+      return null
+    }
+
+    return subscriptions.data
+  }
 }

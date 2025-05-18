@@ -9,4 +9,10 @@ export abstract class StripeMethods {
     payload: string,
     signature: string,
   ): Promise<Stripe.Event>
+  abstract cancelSubscription(
+    subscriptionId: string,
+  ): Promise<Stripe.Subscription | null>
+  abstract listSubscriptionsByEmail(
+    email: string,
+  ): Promise<Stripe.Subscription[] | null>
 }
