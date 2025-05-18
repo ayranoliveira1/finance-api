@@ -32,6 +32,8 @@ import { GetLastTransactionsUseCase } from '@/domain/application/use-case/transa
 import { GetLastTransactionsController } from './controllers/transactions/get-last-transactions.controller'
 import { GetDashboardDataController } from './controllers/transactions/get-dashboard-data.controller'
 import { GetDashboardDataUseCase } from '@/domain/application/use-case/transaction/get-dashboard-data'
+import { CancelPlanStripeController } from './controllers/cancel-plan-stripe.controller'
+import { CancelPlanStripeUseCase } from '@/domain/application/use-case/payment/cancel-plan-stripe'
 
 @Module({
   imports: [DataBaseModule, CryptographyModule, StripeModule],
@@ -51,6 +53,7 @@ import { GetDashboardDataUseCase } from '@/domain/application/use-case/transacti
     CreateCheckoutStripeController,
     DeleteUserByUserController,
     StripeWebhookController,
+    CancelPlanStripeController,
   ],
   providers: [
     RegisterUseCase,
@@ -68,6 +71,7 @@ import { GetDashboardDataUseCase } from '@/domain/application/use-case/transacti
     CreateCheckoutStripeUseCase,
     DeleteUserByUserUseCase,
     StripeWebhookUseCase,
+    CancelPlanStripeUseCase,
   ],
 })
 export class HttpModule {}
