@@ -9,9 +9,7 @@ export const envShema = z.object({
   JWT_REFRESH_PUBLIC_KEY: z.string(),
   STRIPE_PREMIUM_PLAN_PRICE_ID: z.string(),
   STRIPE_SECRET_KEY: z.string(),
-  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
   STRIPE_WEBHOOK_SECRET: z.string(),
-  NEXT_PUBLIC_STRIPE_CUSTOMER_PORTAL_URL: z.string().url(),
   APP_URL: z.string().url(),
   OPENAI_API_KEY: z.string(),
 })
