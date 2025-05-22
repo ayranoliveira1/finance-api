@@ -17,8 +17,8 @@ export abstract class TransactionRepository {
   ): Promise<number | null>
   abstract getCurrentMonthTransactions(
     userId: string,
-    start: Date,
-    end: Date,
+    month: string,
+    year: string,
   ): Promise<Transaction[] | null>
   abstract getLastTransactions(
     userId: string,

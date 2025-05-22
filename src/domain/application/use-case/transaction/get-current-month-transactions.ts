@@ -6,8 +6,8 @@ import { Transaction } from '@/domain/enterprise/entities/transaction'
 
 interface GetCurrentMonthTransactionsUseCaseRequest {
   userId: string
-  start: Date
-  end: Date
+  month: string
+  year: string
 }
 
 type GetCurrentMonthTransactionsUseCaseResponse = Either<
@@ -21,14 +21,14 @@ export class GetCurrentMonthTransactionsUseCase {
 
   async execute({
     userId,
-    start,
-    end,
+    month,
+    year,
   }: GetCurrentMonthTransactionsUseCaseRequest): Promise<GetCurrentMonthTransactionsUseCaseResponse> {
     const transactions =
       await this.transactionRepository.getCurrentMonthTransactions(
         userId,
-        start,
-        end,
+        month,
+        year,
       )
 
     if (!transactions) {

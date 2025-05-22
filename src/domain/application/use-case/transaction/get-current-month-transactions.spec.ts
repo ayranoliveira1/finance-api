@@ -1,5 +1,4 @@
 import { InMemoryTransactionRepository } from 'test/repositories/in-memory-transaction-repository'
-import { endOfMonth, startOfMonth } from 'date-fns'
 import { makeTransaction } from 'test/factories/make-transaction'
 import { ResourceNotFoundError } from '@/core/@types/errors/resource-not-found-error'
 import { GetCurrentMonthTransactionsUseCase } from './get-current-month-transactions'
@@ -14,9 +13,6 @@ describe('GetCurrentMonthTransactionsUseCase', () => {
   })
 
   it('should be able to get the current month transactions', async () => {
-    const start = startOfMonth(new Date())
-    const end = endOfMonth(new Date())
-
     const transaction = makeTransaction()
 
     for (let i = 0; i < 10; i++) {
@@ -25,8 +21,8 @@ describe('GetCurrentMonthTransactionsUseCase', () => {
 
     const result = await sut.execute({
       userId: transaction.userId.toString(),
-      start,
-      end,
+      month: String(new Date().getMonth()),
+      year: String(new Date().getFullYear()),
     })
 
     expect(result.isRight()).toBe(true)
@@ -37,9 +33,6 @@ describe('GetCurrentMonthTransactionsUseCase', () => {
   })
 
   it('should be not able to get the current month transactions', async () => {
-    const start = startOfMonth(new Date())
-    const end = endOfMonth(new Date())
-
     const transaction = makeTransaction()
 
     for (let i = 0; i < 10; i++) {
@@ -48,8 +41,8 @@ describe('GetCurrentMonthTransactionsUseCase', () => {
 
     const result = await sut.execute({
       userId: 'non-existing-user-id',
-      start,
-      end,
+      month: String(new Date().getMonth()),
+      year: String(new Date().getFullYear()),
     })
 
     expect(result.isLeft()).toBe(true)

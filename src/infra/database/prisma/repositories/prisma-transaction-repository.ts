@@ -101,13 +101,17 @@ export class PrismaTransactionRepository implements TransactionRepository {
     return transactions
   }
 
-  async getCurrentMonthTransactions(userId: string, start: Date, end: Date) {
+  async getCurrentMonthTransactions(
+    userId: string,
+    month: string,
+    year: string,
+  ) {
     const transactions = await this.prisma.transaction.findMany({
       where: {
         userId,
         createdAt: {
-          gte: start,
-          lte: end,
+          gte: new Date(`${year}-${month}-01`),
+          lte: new Date(`${year}-${month}-31`),
         },
       },
       orderBy: {
