@@ -34,9 +34,12 @@ import { GetDashboardDataController } from './controllers/transactions/get-dashb
 import { GetDashboardDataUseCase } from '@/domain/application/use-case/transaction/get-dashboard-data'
 import { CancelPlanStripeController } from './controllers/cancel-plan-stripe.controller'
 import { CancelPlanStripeUseCase } from '@/domain/application/use-case/payment/cancel-plan-stripe'
+import { OpenAIModule } from '../reports/openai.module'
+import { GenerateAIReportController } from './controllers/reports/generate-ai-report.controller'
+import { GenerateAIReportUseCase } from '@/domain/application/use-case/reports/generate-ai-report'
 
 @Module({
-  imports: [DataBaseModule, CryptographyModule, StripeModule],
+  imports: [DataBaseModule, CryptographyModule, StripeModule, OpenAIModule],
   controllers: [
     CreateAccountController,
     AuthenticateUserController,
@@ -54,6 +57,7 @@ import { CancelPlanStripeUseCase } from '@/domain/application/use-case/payment/c
     DeleteUserByUserController,
     StripeWebhookController,
     CancelPlanStripeController,
+    GenerateAIReportController,
   ],
   providers: [
     RegisterUseCase,
@@ -72,6 +76,7 @@ import { CancelPlanStripeUseCase } from '@/domain/application/use-case/payment/c
     DeleteUserByUserUseCase,
     StripeWebhookUseCase,
     CancelPlanStripeUseCase,
+    GenerateAIReportUseCase,
   ],
 })
 export class HttpModule {}

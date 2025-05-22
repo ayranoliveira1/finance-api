@@ -13,6 +13,7 @@ export const envShema = z.object({
   STRIPE_WEBHOOK_SECRET: z.string(),
   NEXT_PUBLIC_STRIPE_CUSTOMER_PORTAL_URL: z.string().url(),
   APP_URL: z.string().url(),
+  OPENAI_API_KEY: z.string(),
 })
 
 export type Env = z.infer<typeof envShema>
