@@ -84,6 +84,22 @@ export class InMemoryTransactionRepository implements TransactionRepository {
     return filteredItems.length
   }
 
+  async getCurrentMonthTransactions(userId: string, start: Date, end: Date) {
+    const filteredItems = this.items.filter((item) => {
+      return (
+        item.userId.toString() === userId &&
+        item.createdAt >= start &&
+        item.createdAt <= end
+      )
+    })
+
+    if (filteredItems.length === 0) {
+      return null
+    }
+
+    return filteredItems
+  }
+
   async getLastTransactions(userId: string, month: string, year: string) {
     const filteredItems = this.items.filter((item) => {
       return (
