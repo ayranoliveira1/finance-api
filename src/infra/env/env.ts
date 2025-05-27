@@ -5,8 +5,6 @@ export const envShema = z.object({
   PORT: z.coerce.number().optional().default(3333),
   JWT_PRIVATE_KEY: z.string(),
   JWT_PUBLIC_KEY: z.string(),
-  JWT_REFRESH_PRIVATE_KEY: z.string(),
-  JWT_REFRESH_PUBLIC_KEY: z.string(),
   STRIPE_PREMIUM_PLAN_PRICE_ID: z.string(),
   STRIPE_SECRET_KEY: z.string(),
   STRIPE_WEBHOOK_SECRET: z.string(),
