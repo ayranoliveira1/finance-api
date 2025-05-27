@@ -32,7 +32,7 @@ export class CreateCheckoutStripeUseCase {
       return left(new UserAlreadyExistsError(userId))
     }
 
-    if (user.role !== 'USER') {
+    if (user.subscriptionPlan === 'PREMIUM') {
       return left(new UserAlreadyHasThePlanError())
     }
 
