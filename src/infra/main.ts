@@ -13,19 +13,7 @@ async function bootstrap() {
     credentials: true,
   })
 
-  app.use(
-    '/webhook/stripe',
-    bodyParser.raw({
-      type: 'application/json',
-      limit: '2mb',
-      verify: (req: any, buf, encoding) => {
-        if (buf && buf.length) {
-          req.rawBody = buf.toString(encoding || 'utf8')
-        }
-        return true
-      },
-    }),
-  )
+  app.use('/webhook/stripe', bodyParser.raw({ type: 'application/json' }))
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle(' Ducoprint api')
