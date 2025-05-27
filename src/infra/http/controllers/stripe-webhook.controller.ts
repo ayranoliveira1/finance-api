@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common'
 import { Request as ExpressRequest } from 'express'
 
-@Controller('/webhook/stripe')
+@Controller('/stripe/webhook')
 @Public()
 export class StripeWebhookController {
   constructor(private stripeWebhook: StripeWebhookUseCase) {}
