@@ -7,7 +7,7 @@ export function makeUser(
   overrides: Partial<UserProps> = {},
   id?: UniqueEntityId,
 ) {
-  const question = User.create(
+  const user = User.create(
     {
       name: faker.person.fullName(),
       email: faker.internet.email(),
@@ -17,5 +17,5 @@ export function makeUser(
     id,
   )
 
-  return question
+  return user
 }
