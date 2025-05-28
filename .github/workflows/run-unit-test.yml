@@ -10,6 +10,7 @@ jobs:
   run-unit-tests:
     name: Run Unit Tests
     runs-on: ubuntu-latest
+    env: postgresql://user:pass@fake/fakedb
 
     steps:
       - uses: actions/checkout@v4
