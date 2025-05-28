@@ -27,8 +27,6 @@ describe('CreateCheckoutStripeUseCase', () => {
       userId: user.id.toString(),
     })
 
-    console.log(result)
-
     expect(result.isRight()).toBe(true)
     expect(result.value).toEqual({
       checkout_url: `https://fake-stripe.com/${user.id.toString()}/${user.email}`,
