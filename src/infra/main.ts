@@ -16,10 +16,10 @@ async function bootstrap() {
   app.use('/stripe/webhook', bodyParser.raw({ type: 'application/json' }))
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle(' Ducoprint api')
-    .setDescription('Ducoprint API Description')
+    .setTitle('Finance API')
+    .setDescription('Finance API Description')
     .setVersion('1.0')
-    .addTag('duco')
+    .addTag('finance')
     .build()
 
   const documentFactory = () => SwaggerModule.createDocument(app, swaggerConfig)
