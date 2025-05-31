@@ -74,16 +74,6 @@ export class PrismaTransactionRepository implements TransactionRepository {
     start: Date,
     end: Date,
   ): Promise<number | null> {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    })
-
-    if (!user) {
-      return null
-    }
-
     const transactions = await this.prisma.transaction.count({
       where: {
         userId,
@@ -106,12 +96,17 @@ export class PrismaTransactionRepository implements TransactionRepository {
     month: string,
     year: string,
   ) {
+    const start = new Date(`${year}-${month}-01T00:00:00Z`)
+    const end = new Date(
+      new Date(`${year}-${month}-01`).setMonth(Number(month)),
+    ).toISOString()
+
     const transactions = await this.prisma.transaction.findMany({
       where: {
         userId,
         createdAt: {
-          gte: new Date(`${year}-${month}-01`),
-          lte: new Date(`${year}-${month}-31`),
+          gte: start,
+          lte: new Date(end),
         },
       },
       orderBy: {
@@ -127,12 +122,17 @@ export class PrismaTransactionRepository implements TransactionRepository {
   }
 
   async getLastTransactions(userId: string, month: string, year: string) {
+    const start = new Date(`${year}-${month}-01T00:00:00Z`)
+    const end = new Date(
+      new Date(`${year}-${month}-01`).setMonth(Number(month)),
+    ).toISOString()
+
     const transactions = await this.prisma.transaction.findMany({
       where: {
         userId,
         createdAt: {
-          gte: new Date(`${year}-${month}-01`),
-          lte: new Date(`${year}-${month}-31`),
+          gte: start,
+          lte: new Date(end),
         },
       },
       take: 5,
@@ -153,11 +153,16 @@ export class PrismaTransactionRepository implements TransactionRepository {
     month: string,
     year: string,
   ): Promise<DashboardData | null> {
+    const start = new Date(`${year}-${month}-01T00:00:00Z`)
+    const end = new Date(
+      new Date(`${year}-${month}-01`).setMonth(Number(month)),
+    ).toISOString()
+
     const where = {
       userId,
       date: {
-        gte: new Date(`${year}-${month}-01`),
-        lt: new Date(`${year}-${month}-31`),
+        gte: start,
+        lt: new Date(end),
       },
     }
 
