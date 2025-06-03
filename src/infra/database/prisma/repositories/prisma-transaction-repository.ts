@@ -96,9 +96,11 @@ export class PrismaTransactionRepository implements TransactionRepository {
     month: string,
     year: string,
   ) {
-    const start = new Date(`${year}-${month}-01T00:00:00Z`)
+    const paddedMonth = month.toString().padStart(2, '0')
+
+    const start = new Date(`${year}-${paddedMonth}-01T00:00:00Z`)
     const end = new Date(
-      new Date(`${year}-${month}-01`).setMonth(Number(month)),
+      new Date(`${year}-${paddedMonth}-01`).setMonth(Number(paddedMonth)),
     ).toISOString()
 
     const transactions = await this.prisma.transaction.findMany({
@@ -122,9 +124,11 @@ export class PrismaTransactionRepository implements TransactionRepository {
   }
 
   async getLastTransactions(userId: string, month: string, year: string) {
-    const start = new Date(`${year}-${month}-01T00:00:00Z`)
+    const paddedMonth = month.toString().padStart(2, '0')
+
+    const start = new Date(`${year}-${paddedMonth}-01T00:00:00Z`)
     const end = new Date(
-      new Date(`${year}-${month}-01`).setMonth(Number(month)),
+      new Date(`${year}-${paddedMonth}-01`).setMonth(Number(paddedMonth)),
     ).toISOString()
 
     const transactions = await this.prisma.transaction.findMany({
@@ -153,9 +157,11 @@ export class PrismaTransactionRepository implements TransactionRepository {
     month: string,
     year: string,
   ): Promise<DashboardData | null> {
-    const start = new Date(`${year}-${month}-01T00:00:00Z`)
+    const paddedMonth = month.toString().padStart(2, '0')
+
+    const start = new Date(`${year}-${paddedMonth}-01T00:00:00Z`)
     const end = new Date(
-      new Date(`${year}-${month}-01`).setMonth(Number(month)),
+      new Date(`${year}-${paddedMonth}-01`).setMonth(Number(paddedMonth)),
     ).toISOString()
 
     const where = {
