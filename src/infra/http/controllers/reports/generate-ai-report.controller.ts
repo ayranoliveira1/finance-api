@@ -8,7 +8,6 @@ import {
   Controller,
   Get,
   NotAcceptableException,
-  NotFoundException,
   Query,
 } from '@nestjs/common'
 
@@ -33,7 +32,7 @@ export class GenerateAIReportController {
 
       switch (error.constructor) {
         case ResourceNotFoundError:
-          throw new NotFoundException(error.message)
+          throw new BadRequestException(error.message)
         case ReportFailedError:
           throw new NotAcceptableException(error.message)
 

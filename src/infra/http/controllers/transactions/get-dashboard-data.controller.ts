@@ -2,13 +2,7 @@ import { ResourceNotFoundError } from '@/core/@types/errors/resource-not-found-e
 import { GetDashboardDataUseCase } from '@/domain/application/use-case/transaction/get-dashboard-data'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt-strategy'
-import {
-  BadRequestException,
-  Controller,
-  Get,
-  NotFoundException,
-  Query,
-} from '@nestjs/common'
+import { BadRequestException, Controller, Get, Query } from '@nestjs/common'
 
 @Controller('/dashboard')
 export class GetDashboardDataController {
@@ -33,7 +27,7 @@ export class GetDashboardDataController {
 
       switch (error.constructor) {
         case ResourceNotFoundError:
-          throw new NotFoundException(error.message)
+          throw new BadRequestException(error.message)
         default:
           throw new BadRequestException(error.message)
       }

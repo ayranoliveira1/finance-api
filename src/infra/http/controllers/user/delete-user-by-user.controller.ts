@@ -4,7 +4,6 @@ import {
   Controller,
   Delete,
   HttpCode,
-  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common'
 import { z } from 'zod'
@@ -46,7 +45,7 @@ export class DeleteUserByUserController {
 
       switch (error.constructor) {
         case ResourceNotFoundError:
-          throw new NotFoundException(error.message)
+          throw new BadRequestException(error.message)
         case InvalidCredentialsError:
           throw new UnauthorizedException(error.message)
         default:

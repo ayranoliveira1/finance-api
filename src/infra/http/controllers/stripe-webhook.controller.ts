@@ -6,7 +6,6 @@ import {
   BadRequestException,
   Controller,
   HttpCode,
-  NotFoundException,
   Post,
   Request,
   UnauthorizedException,
@@ -35,7 +34,7 @@ export class StripeWebhookController {
 
       switch (error.constructor) {
         case ResourceNotFoundError:
-          throw new NotFoundException(error.message)
+          throw new BadRequestException(error.message)
         case InvalidCredentialsError:
           throw new UnauthorizedException(error.message)
         default:

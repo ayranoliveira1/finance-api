@@ -2,13 +2,7 @@ import { ResourceNotFoundError } from '@/core/@types/errors/resource-not-found-e
 import { FetchTransactionUseCase } from '@/domain/application/use-case/transaction/fetch-transaction'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt-strategy'
-import {
-  BadRequestException,
-  Controller,
-  Get,
-  NotFoundException,
-  Query,
-} from '@nestjs/common'
+import { BadRequestException, Controller, Get, Query } from '@nestjs/common'
 import { TransactionPresenter } from '../../presenters/transaction-presenter'
 
 @Controller('/transactions')
@@ -34,7 +28,7 @@ export class FetchTransactionController {
 
       switch (error.constructor) {
         case ResourceNotFoundError:
-          throw new NotFoundException(error.message)
+          throw new BadRequestException(error.message)
         default:
           throw new BadRequestException(error.message)
       }

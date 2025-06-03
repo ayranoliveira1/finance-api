@@ -10,7 +10,6 @@ import {
   Controller,
   HttpCode,
   NotAcceptableException,
-  NotFoundException,
   Post,
 } from '@nestjs/common'
 
@@ -36,7 +35,7 @@ export class CreateCheckoutStripeController {
         case UserAlreadyHasThePlanError:
           throw new ConflictException(error.message)
         case NotAllowedError:
-          throw new NotFoundException(error.message)
+          throw new BadRequestException(error.message)
         default:
           throw new BadRequestException(error.message)
       }

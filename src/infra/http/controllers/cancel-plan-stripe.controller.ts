@@ -8,7 +8,6 @@ import {
   Controller,
   HttpCode,
   NotAcceptableException,
-  NotFoundException,
   Post,
 } from '@nestjs/common'
 
@@ -30,7 +29,7 @@ export class CancelPlanStripeController {
 
       switch (error.constructor) {
         case ResourceNotFoundError:
-          throw new NotFoundException(error.message)
+          throw new BadRequestException(error.message)
         case NotAllowedError:
           throw new NotAcceptableException(error.message)
         default:

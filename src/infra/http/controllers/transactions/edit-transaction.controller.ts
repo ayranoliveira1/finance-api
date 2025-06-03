@@ -10,7 +10,6 @@ import {
   Controller,
   ForbiddenException,
   HttpCode,
-  NotFoundException,
   Param,
   Put,
 } from '@nestjs/common'
@@ -66,7 +65,7 @@ export class EditTransactionController {
 
       switch (error.constructor) {
         case ResourceNotFoundError:
-          throw new NotFoundException(error.message)
+          throw new BadRequestException(error.message)
         case NotAllowedError:
           throw new ForbiddenException(error.message)
         default:

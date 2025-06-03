@@ -4,7 +4,6 @@ import {
   Delete,
   ForbiddenException,
   HttpCode,
-  NotFoundException,
   Param,
 } from '@nestjs/common'
 import { DeleteTransactionUseCase } from '@/domain/application/use-case/transaction/delete-transaction'
@@ -35,7 +34,7 @@ export class DeleteTransactionController {
 
       switch (error.constructor) {
         case ResourceNotFoundError:
-          throw new NotFoundException(error.message)
+          throw new BadRequestException(error.message)
         case NotAllowedError:
           throw new ForbiddenException(error.message)
         default:

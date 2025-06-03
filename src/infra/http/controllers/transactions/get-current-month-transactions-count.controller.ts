@@ -2,12 +2,7 @@ import { ResourceNotFoundError } from '@/core/@types/errors/resource-not-found-e
 import { GetCurrentMonthTransactionsCountUseCase } from '@/domain/application/use-case/transaction/get-current-month-transactions-count'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt-strategy'
-import {
-  BadRequestException,
-  Controller,
-  Get,
-  NotFoundException,
-} from '@nestjs/common'
+import { BadRequestException, Controller, Get } from '@nestjs/common'
 import { endOfMonth, startOfMonth } from 'date-fns'
 
 @Controller('/transactions/current-month/count')
@@ -34,7 +29,7 @@ export class GetCurrentMonthTransactionsCountController {
 
       switch (error.constructor) {
         case ResourceNotFoundError:
-          throw new NotFoundException(error.message)
+          throw new BadRequestException(error.message)
         default:
           throw new BadRequestException(error.message)
       }
