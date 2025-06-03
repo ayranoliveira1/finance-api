@@ -20,39 +20,39 @@ describe('GenerateAIReportUseCase', () => {
 
   it('should be able to generate a report', async () => {
     const transaction = makeTransaction({
-      date: new Date('2025-05-27'),
+      date: new Date(),
     })
 
     for (let i = 0; i < 5; i++) {
       await inMemoryTransactionRepository.create(transaction)
     }
 
-    const response = await sut.execute({
+    const result = await sut.execute({
       userId: transaction.userId.toString(),
       month: transaction.date.getMonth().toString(),
       year: transaction.date.getFullYear().toString(),
     })
 
-    expect(response.isRight()).toBe(true)
-    expect(response.value).toEqual(expect.any(String))
+    expect(result.isRight()).toBe(true)
+    expect(result.value).toEqual(expect.any(String))
   })
 
   it('should not be able to generate a report if the user does not exist', async () => {
     const transaction = makeTransaction({
-      date: new Date('2025-05-27'),
+      date: new Date(),
     })
 
     for (let i = 0; i < 5; i++) {
       await inMemoryTransactionRepository.create(transaction)
     }
 
-    const response = await sut.execute({
+    const result = await sut.execute({
       userId: 'non-existing-user-id',
       month: transaction.date.getMonth().toString(),
       year: transaction.date.getFullYear().toString(),
     })
 
-    expect(response.isLeft()).toBe(true)
-    expect(response.value).toBeInstanceOf(ResourceNotFoundError)
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })
