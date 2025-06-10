@@ -13,6 +13,8 @@ async function bootstrap() {
     credentials: true,
   })
 
+  app.getHttpAdapter().getInstance().set('trust proxy', true)
+
   app.use('/stripe/webhook', bodyParser.raw({ type: 'application/json' }))
 
   const swaggerConfig = new DocumentBuilder()
