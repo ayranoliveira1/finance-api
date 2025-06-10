@@ -8,6 +8,7 @@ export class PrismaSessionMapper {
       {
         ip: raw.ip,
         browser: raw.browser,
+        os: raw.os,
         city: raw.city,
         region: raw.region,
         country: raw.country,
@@ -22,6 +23,7 @@ export class PrismaSessionMapper {
       id: domain.id.toString(),
       ip: domain.ip,
       browser: domain.browser,
+      os: domain.os,
       city: domain.city,
       region: domain.region,
       country: domain.country,
