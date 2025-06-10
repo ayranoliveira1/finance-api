@@ -64,7 +64,11 @@ export class AuthenticateUserController {
 
     const { token, refreshToken, userId } = result.value
 
-    const ip = (req.headers['x-real-ip'] as string) || req.socket.remoteAddress!
+    const forwardedIp = req.headers['x-forwarded-for'] as string
+
+    const ip = forwardedIp
+      ? forwardedIp.split(',')[0].trim()
+      : req.ip || req.socket.remoteAddress!
     const userAgent = req.headers['user-agent']?.toString() || ''
 
     const parser = new UAParser(userAgent)
