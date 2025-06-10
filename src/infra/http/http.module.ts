@@ -37,9 +37,17 @@ import { CancelPlanStripeUseCase } from '@/domain/application/use-case/payment/c
 import { OpenAIModule } from '../reports/openai.module'
 import { GenerateAIReportController } from './controllers/reports/generate-ai-report.controller'
 import { GenerateAIReportUseCase } from '@/domain/application/use-case/reports/generate-ai-report'
+import { CreateSessionUseCase } from '@/domain/application/use-case/user/create-session'
+import { LocationModule } from '../location/location.module'
 
 @Module({
-  imports: [DataBaseModule, CryptographyModule, StripeModule, OpenAIModule],
+  imports: [
+    DataBaseModule,
+    CryptographyModule,
+    StripeModule,
+    OpenAIModule,
+    LocationModule,
+  ],
   controllers: [
     CreateAccountController,
     AuthenticateUserController,
@@ -62,6 +70,7 @@ import { GenerateAIReportUseCase } from '@/domain/application/use-case/reports/g
   providers: [
     RegisterUseCase,
     AuthenticateUserUseCase,
+    CreateSessionUseCase,
     RefreshTokenUseCase,
     GetUserUseCase,
     EditUserUseCase,
