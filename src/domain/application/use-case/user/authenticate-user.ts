@@ -15,6 +15,7 @@ type AuthenticateUserUseCaseResponse = Either<
   {
     token: string
     refreshToken: string
+    userId: string
   }
 >
 
@@ -56,6 +57,7 @@ export class AuthenticateUserUseCase {
     return right({
       token,
       refreshToken,
+      userId: user.id.toString(),
     })
   }
 }
