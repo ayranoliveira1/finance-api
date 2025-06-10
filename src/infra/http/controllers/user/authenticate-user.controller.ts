@@ -64,8 +64,7 @@ export class AuthenticateUserController {
     const { token, refreshToken, userId } = result.value
 
     const response = await this.createSession.execute({
-      ip:
-        (req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress!,
+      ip: (req.headers['x-forwarded-for'] as string) || req.ip!,
       browser: req.headers['user-agent']?.toString() || '',
       userId: userId,
     })
