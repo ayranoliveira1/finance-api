@@ -6,13 +6,16 @@ import {
   Controller,
   HttpCode,
   Post,
+  Req,
   Res,
   UnauthorizedException,
 } from '@nestjs/common'
 import { z } from 'zod'
-import { Response } from 'express'
+import { Response, Request } from 'express'
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
 import { InvalidCredentialsError } from '@/domain/application/use-case/errors/invalid-credentials-error'
+import { CreateSessionUseCase } from '@/domain/application/use-case/user/create-session'
+import { ResourceNotFoundError } from '@/core/@types/errors/resource-not-found-error'
 
 const authenticateBodySchema = z.object({
   email: z.string().email(),
@@ -26,13 +29,17 @@ const bodyValidationType = new ZodValidationPipe(authenticateBodySchema)
 @Controller('/auth/login')
 @Public()
 export class AuthenticateUserController {
-  constructor(private authenticateUser: AuthenticateUserUseCase) {}
+  constructor(
+    private authenticateUser: AuthenticateUserUseCase,
+    private createSession: CreateSessionUseCase,
+  ) {}
 
   @Post()
   @HttpCode(201)
   async handle(
     @Body(bodyValidationType) body: AuthenticateBodyType,
     @Res({ passthrough: true }) res: Response,
+    @Req() req: Request,
   ) {
     authenticateBodySchema.parse(body)
 
@@ -54,7 +61,24 @@ export class AuthenticateUserController {
       }
     }
 
-    const { token, refreshToken } = result.value
+    const { token, refreshToken, userId } = result.value
+
+    const response = await this.createSession.execute({
+      ip: req.ip || '',
+      browser: req.headers['user-agent']?.toString() || '',
+      userId: userId,
+    })
+
+    if (response.isLeft()) {
+      const error = response.value
+
+      switch (error.constructor) {
+        case ResourceNotFoundError:
+          throw new BadRequestException(error.message)
+        default:
+          throw new BadRequestException(error.message)
+      }
+    }
 
     res.cookie('refresh_token', refreshToken, {
       httpOnly: true,
