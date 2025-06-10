@@ -22,8 +22,9 @@ model User {
   role             UserRole         @default(USER)
   Transaction      Transaction[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Session   Session[]
 
   @@map("users")
 }
@@ -36,6 +37,21 @@ enum UserRole {
 enum SubscriptionPlan {
   FREE
   PREMIUM
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  ip        String
+  browser   String
+  country   String
+  city      String
+  region    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+
+  @@map("sessions")
 }
 
 model Transaction {
