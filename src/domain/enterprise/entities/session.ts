@@ -5,6 +5,7 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 export interface SessionProps {
   ip: string
   browser: string
+  os: string
   country: string
   city: string
   region: string
@@ -20,6 +21,10 @@ export class Session extends Entity<SessionProps> {
 
   get browser() {
     return this.props.browser
+  }
+
+  get os() {
+    return this.props.os
   }
 
   get country() {
@@ -53,6 +58,11 @@ export class Session extends Entity<SessionProps> {
 
   set browser(browser: string) {
     this.props.browser = browser
+    this.touch()
+  }
+
+  set os(os: string) {
+    this.props.os = os
     this.touch()
   }
 
