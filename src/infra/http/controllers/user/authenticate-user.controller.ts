@@ -64,19 +64,20 @@ export class AuthenticateUserController {
 
     const { token, refreshToken, userId } = result.value
 
-    const ip =
-      req.headers['x-forwarded-for']?.toString().split(',')[0].trim() || req.ip!
+    const ip = (req.headers['x-real-ip'] as string) || req.socket.remoteAddress!
     const userAgent = req.headers['user-agent']?.toString() || ''
 
     const parser = new UAParser(userAgent)
 
     const browser = `${parser.getBrowser().name} ${parser.getBrowser().version}`
     const os = `${parser.getOS().name} ${parser.getOS().version}`
+    const deviceType = parser.getDevice().type || 'unknown'
 
     const response = await this.createSession.execute({
       ip,
       browser,
       os,
+      deviceType,
       userId: userId,
     })
 

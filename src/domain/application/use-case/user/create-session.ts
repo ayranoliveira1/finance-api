@@ -9,6 +9,7 @@ interface CreateSessionUseCaseRequest {
   ip: string
   browser: string
   os: string
+  deviceType: string
   userId: string
 }
 
@@ -30,6 +31,7 @@ export class CreateSessionUseCase {
     ip,
     browser,
     os,
+    deviceType,
     userId,
   }: CreateSessionUseCaseRequest): Promise<CreateSessionUseCaseResponse> {
     const location = await this.locationMethods.getLocationByIp(ip)
@@ -42,6 +44,7 @@ export class CreateSessionUseCase {
       ip,
       browser,
       os,
+      deviceType,
       country: location.country,
       city: location.city,
       region: location.region,

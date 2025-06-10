@@ -40,17 +40,18 @@ enum SubscriptionPlan {
 }
 
 model Session {
-  id        String   @id @default(uuid())
-  ip        String
-  browser   String
-  os        String
-  country   String
-  city      String
-  region    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
+  id         String   @id @default(uuid())
+  ip         String
+  browser    String
+  os         String
+  deviceType String   @map("device_type")
+  country    String
+  city       String
+  region     String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
 
   @@map("sessions")
 }

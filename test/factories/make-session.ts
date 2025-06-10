@@ -13,6 +13,7 @@ export function makeSession(
       browser: faker.internet.userAgent(),
       country: faker.location.country(),
       os: faker.system.fileName(),
+      deviceType: faker.helpers.arrayElement(['desktop', 'mobile', 'tablet']),
       city: faker.location.city(),
       region: faker.location.state(),
       userId: faker.string.uuid(),

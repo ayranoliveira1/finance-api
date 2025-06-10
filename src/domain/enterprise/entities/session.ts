@@ -6,6 +6,7 @@ export interface SessionProps {
   ip: string
   browser: string
   os: string
+  deviceType: string
   country: string
   city: string
   region: string
@@ -25,6 +26,10 @@ export class Session extends Entity<SessionProps> {
 
   get os() {
     return this.props.os
+  }
+
+  get deviceType() {
+    return this.props.deviceType
   }
 
   get country() {
@@ -66,6 +71,10 @@ export class Session extends Entity<SessionProps> {
     this.touch()
   }
 
+  set deviceType(deviceType: string) {
+    this.props.deviceType = deviceType
+    this.touch()
+  }
   set country(country: string) {
     this.props.country = country
     this.touch()
