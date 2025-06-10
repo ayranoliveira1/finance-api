@@ -4,6 +4,8 @@ import { UserRepository } from '@/domain/application/repositories/user-repositor
 import { PrimsaUserRepository } from './prisma/repositories/prisma-user-repository'
 import { TransactionRepository } from '@/domain/application/repositories/transaction-repository'
 import { PrismaTransactionRepository } from './prisma/repositories/prisma-transaction-repository'
+import { SessionRepository } from '@/domain/application/repositories/session-repository'
+import { PrismaSessionRepository } from './prisma/repositories/prisma-session-repository'
 
 @Module({
   providers: [
@@ -16,7 +18,16 @@ import { PrismaTransactionRepository } from './prisma/repositories/prisma-transa
       provide: TransactionRepository,
       useClass: PrismaTransactionRepository,
     },
+    {
+      provide: SessionRepository,
+      useClass: PrismaSessionRepository,
+    },
   ],
-  exports: [PrismaService, UserRepository, TransactionRepository],
+  exports: [
+    PrismaService,
+    UserRepository,
+    TransactionRepository,
+    SessionRepository,
+  ],
 })
 export class DataBaseModule {}
