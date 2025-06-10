@@ -8,6 +8,7 @@ import { ResourceNotFoundError } from '@/core/@types/errors/resource-not-found-e
 interface CreateSessionUseCaseRequest {
   ip: string
   browser: string
+  os: string
   userId: string
 }
 
@@ -28,6 +29,7 @@ export class CreateSessionUseCase {
   async execute({
     ip,
     browser,
+    os,
     userId,
   }: CreateSessionUseCaseRequest): Promise<CreateSessionUseCaseResponse> {
     const location = await this.locationMethods.getLocationByIp(ip)
@@ -39,6 +41,7 @@ export class CreateSessionUseCase {
     const session = Session.create({
       ip,
       browser,
+      os,
       country: location.country,
       city: location.city,
       region: location.region,

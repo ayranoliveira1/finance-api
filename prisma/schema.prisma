@@ -43,6 +43,7 @@ model Session {
   id        String   @id @default(uuid())
   ip        String
   browser   String
+  os        String
   country   String
   city      String
   region    String

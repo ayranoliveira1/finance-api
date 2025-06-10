@@ -4,16 +4,17 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { EnvService } from './env/env.service'
 import * as bodyParser from 'body-parser'
 import { AppModule } from './app.module'
+import { ExpressAdapter } from '@nestjs/platform-express'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
+  const app = await NestFactory.create(AppModule, new ExpressAdapter())
 
   app.enableCors({
     origin: '*',
     credentials: true,
   })
 
-  app.getHttpAdapter().getInstance().set('trust proxy', true)
+  const expressInstance = app.getHttpAdapter().getInstance()
 
   app.use('/stripe/webhook', bodyParser.raw({ type: 'application/json' }))
 
@@ -30,6 +31,8 @@ async function bootstrap() {
 
   const envService = app.get(EnvService)
   const port = envService.get('PORT')
+
+  expressInstance.set('trust proxy', true)
 
   await app.listen(port)
 }

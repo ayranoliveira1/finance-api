@@ -12,6 +12,7 @@ export function makeSession(
       ip: faker.internet.ip(),
       browser: faker.internet.userAgent(),
       country: faker.location.country(),
+      os: faker.system.fileName(),
       city: faker.location.city(),
       region: faker.location.state(),
       userId: faker.string.uuid(),

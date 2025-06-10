@@ -16,6 +16,7 @@ import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
 import { InvalidCredentialsError } from '@/domain/application/use-case/errors/invalid-credentials-error'
 import { CreateSessionUseCase } from '@/domain/application/use-case/user/create-session'
 import { ResourceNotFoundError } from '@/core/@types/errors/resource-not-found-error'
+import { UAParser } from 'ua-parser-js'
 
 const authenticateBodySchema = z.object({
   email: z.string().email(),
@@ -63,11 +64,19 @@ export class AuthenticateUserController {
 
     const { token, refreshToken, userId } = result.value
 
+    const ip =
+      req.headers['x-forwarded-for']?.toString().split(',')[0].trim() || req.ip!
+    const userAgent = req.headers['user-agent']?.toString() || ''
+
+    const parser = new UAParser(userAgent)
+
+    const browser = `${parser.getBrowser().name} ${parser.getBrowser().version}`
+    const os = `${parser.getOS().name} ${parser.getOS().version}`
+
     const response = await this.createSession.execute({
-      ip:
-        req.headers['x-forwarded-for']?.toString().split(',')[0].trim() ||
-        req.ip!,
-      browser: req.headers['user-agent']?.toString() || '',
+      ip,
+      browser,
+      os,
       userId: userId,
     })
 
