@@ -7,12 +7,11 @@ import {
   Headers,
   HttpCode,
   Post,
-  Req,
   Res,
   UnauthorizedException,
 } from '@nestjs/common'
 import { z } from 'zod'
-import { Response, Request } from 'express'
+import { Response } from 'express'
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
 import { InvalidCredentialsError } from '@/domain/application/use-case/errors/invalid-credentials-error'
 import { CreateSessionUseCase } from '@/domain/application/use-case/user/create-session'
@@ -22,6 +21,7 @@ import { UAParser } from 'ua-parser-js'
 const authenticateBodySchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
+  ip: z.string(),
 })
 
 type AuthenticateBodyType = z.infer<typeof authenticateBodySchema>
@@ -41,12 +41,11 @@ export class AuthenticateUserController {
   async handle(
     @Body(bodyValidationType) body: AuthenticateBodyType,
     @Res({ passthrough: true }) res: Response,
-    @Req() req: Request,
     @Headers('user-agent') userAgent: string,
   ) {
     authenticateBodySchema.parse(body)
 
-    const { email, password } = body
+    const { email, password, ip } = body
 
     const result = await this.authenticateUser.execute({
       email,
@@ -65,12 +64,6 @@ export class AuthenticateUserController {
     }
 
     const { token, refreshToken, userId } = result.value
-
-    const forwardedIp = req.headers['x-forwarded-for'] as string
-
-    const ip = forwardedIp
-      ? forwardedIp.split(',')[0].trim()
-      : req.ip || req.socket.remoteAddress!
 
     const parser = new UAParser(userAgent)
 
