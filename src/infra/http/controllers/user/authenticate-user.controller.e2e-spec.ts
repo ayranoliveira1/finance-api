@@ -35,6 +35,7 @@ describe('Authenticate (E2E)', () => {
       .send({
         email: 'johndoe@gmail.com',
         password: '12345678',
+        ip: '8.8.8.8',
       })
 
     expect(response.statusCode).toBe(201)

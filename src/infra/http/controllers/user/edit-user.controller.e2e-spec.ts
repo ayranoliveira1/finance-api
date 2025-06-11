@@ -33,6 +33,7 @@ describe('Edit user (E2E)', () => {
     const login = await request(app.getHttpServer()).post('/auth/login').send({
       email: 'johndoe@gmail.com',
       password: '12345678',
+      ip: '8.8.8.8',
     })
 
     const response = await request(app.getHttpServer())
@@ -50,6 +51,7 @@ describe('Edit user (E2E)', () => {
     const login = await request(app.getHttpServer()).post('/auth/login').send({
       email: 'ayranoliveira1@gmail.com',
       password: '12345678',
+      ip: '8.8.8.8',
     })
 
     const response = await request(app.getHttpServer())

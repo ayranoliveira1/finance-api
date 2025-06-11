@@ -21,6 +21,8 @@ describe('CreateSessionUseCase', () => {
     const result = await sut.execute({
       ip: session.ip,
       browser: session.browser,
+      deviceType: session.deviceType,
+      os: session.os,
       userId: session.userId.toString(),
     })
 
@@ -40,6 +42,8 @@ describe('CreateSessionUseCase', () => {
     const result = await sut.execute({
       ip: session.ip,
       browser: session.browser,
+      deviceType: session.deviceType,
+      os: session.os,
       userId: session.userId.toString(),
     })
 

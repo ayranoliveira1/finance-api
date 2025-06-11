@@ -1,5 +1,6 @@
-import { LocationResponse } from '@/core/@types/location'
+import { Session } from '@/domain/enterprise/entities/session'
 
 export abstract class SessionRepository {
-  abstract create(session: LocationResponse): Promise<void>
+  abstract create(session: Session): Promise<void>
+  abstract findManyRecent(): Promise<Session | null>
 }

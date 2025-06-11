@@ -35,6 +35,7 @@ describe('Refresh token (E2E)', () => {
       .send({
         email: 'johndoe@gmail.com',
         password: '12345678',
+        ip: '8.8.8.8',
       })
 
     const refreshToken = response.headers['set-cookie'][0]
