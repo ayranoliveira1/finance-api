@@ -69,7 +69,11 @@ export class AuthenticateUserController {
 
     const browser = `${parser.getBrowser().name} ${parser.getBrowser().version}`
     const os = `${parser.getOS().name} ${parser.getOS().version}`
-    const deviceType = parser.getDevice().type || 'unknown'
+
+    const deviceInfo = parser.getDevice()
+    const deviceType =
+      deviceInfo.type ??
+      (deviceInfo.vendor || deviceInfo.model ? 'unknown' : 'desktop')
 
     const response = await this.createSession.execute({
       ip,
