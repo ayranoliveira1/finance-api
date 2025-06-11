@@ -39,6 +39,8 @@ import { GenerateAIReportController } from './controllers/reports/generate-ai-re
 import { GenerateAIReportUseCase } from '@/domain/application/use-case/reports/generate-ai-report'
 import { CreateSessionUseCase } from '@/domain/application/use-case/user/create-session'
 import { LocationModule } from '../location/location.module'
+import { FetchRecentSessionController } from './controllers/user/fecth-recent-session.controller'
+import { FetchRecentSessionUseCase } from '@/domain/application/use-case/user/fetch-recent-session'
 
 @Module({
   imports: [
@@ -51,6 +53,7 @@ import { LocationModule } from '../location/location.module'
   controllers: [
     CreateAccountController,
     AuthenticateUserController,
+    FetchRecentSessionController,
     RefreshTokenController,
     GetUserController,
     EditUserController,
@@ -71,6 +74,7 @@ import { LocationModule } from '../location/location.module'
     RegisterUseCase,
     AuthenticateUserUseCase,
     CreateSessionUseCase,
+    FetchRecentSessionUseCase,
     RefreshTokenUseCase,
     GetUserUseCase,
     EditUserUseCase,

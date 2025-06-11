@@ -15,7 +15,7 @@ export class LocationService implements LocationMethods {
     return {
       country: result.country ?? 'unknown',
       city: result.city ?? 'unknown',
-      region: result.regionName ?? 'unknown',
+      region: result.region ?? 'unknown',
     }
   }
 }

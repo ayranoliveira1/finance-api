@@ -16,8 +16,11 @@ export class PrismaSessionRepository implements SessionRepository {
     })
   }
 
-  async findManyRecent() {
+  async findManyRecent(userId: string) {
     const recentSession = await this.prisma.session.findFirst({
+      where: {
+        userId,
+      },
       orderBy: {
         createdAt: 'desc',
       },
