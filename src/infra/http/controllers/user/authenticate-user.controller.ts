@@ -4,6 +4,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Headers,
   HttpCode,
   Post,
   Req,
@@ -41,6 +42,7 @@ export class AuthenticateUserController {
     @Body(bodyValidationType) body: AuthenticateBodyType,
     @Res({ passthrough: true }) res: Response,
     @Req() req: Request,
+    @Headers('user-agent') userAgent: string,
   ) {
     authenticateBodySchema.parse(body)
 
@@ -69,7 +71,6 @@ export class AuthenticateUserController {
     const ip = forwardedIp
       ? forwardedIp.split(',')[0].trim()
       : req.ip || req.socket.remoteAddress!
-    const userAgent = req.headers['user-agent']?.toString() || ''
 
     const parser = new UAParser(userAgent)
 
