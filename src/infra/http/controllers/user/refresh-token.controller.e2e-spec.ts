@@ -41,10 +41,13 @@ describe('Refresh token (E2E)', () => {
     const refreshToken = response.headers['set-cookie'][0]
       .split(';')[0]
       .split('=')[1]
+    const sessionId = response.headers['set-cookie'][1]
+      .split(';')[0]
+      .split('=')[1]
 
     const refreshResponse = await request(app.getHttpServer())
       .post('/auth/refresh-token')
-      .set('Cookie', `refresh_token=${refreshToken}`)
+      .set('Cookie', `refresh_token=${refreshToken}; session_id=${sessionId}`)
       .send()
 
     expect(refreshResponse.statusCode).toBe(201)

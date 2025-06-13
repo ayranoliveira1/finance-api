@@ -41,6 +41,7 @@ import { CreateSessionUseCase } from '@/domain/application/use-case/user/create-
 import { LocationModule } from '../location/location.module'
 import { FetchRecentSessionController } from './controllers/user/fecth-recent-session.controller'
 import { FetchRecentSessionUseCase } from '@/domain/application/use-case/user/fetch-recent-session'
+import { VerifySessionUseCase } from '@/domain/application/use-case/user/verify-session'
 
 @Module({
   imports: [
@@ -76,6 +77,7 @@ import { FetchRecentSessionUseCase } from '@/domain/application/use-case/user/fe
     CreateSessionUseCase,
     FetchRecentSessionUseCase,
     RefreshTokenUseCase,
+    VerifySessionUseCase,
     GetUserUseCase,
     EditUserUseCase,
     CreateTransactionUseCase,
