@@ -3,16 +3,23 @@ import { InMemorySessionRepository } from 'test/repositories/in-memory-session-r
 import { CreateSessionUseCase } from './create-session'
 import { makeSession } from 'test/factories/make-session'
 import { ResourceNotFoundError } from '@/core/@types/errors/resource-not-found-error'
+import { FakerEncryption } from 'test/cryptography/faker-encryption'
 
 let fakerLocation: FakerLocation
 let inMemorySessionRepository: InMemorySessionRepository
+let fakerEncryption: FakerEncryption
 let sut: CreateSessionUseCase
 
 describe('CreateSessionUseCase', () => {
   beforeEach(() => {
     fakerLocation = new FakerLocation()
     inMemorySessionRepository = new InMemorySessionRepository()
-    sut = new CreateSessionUseCase(inMemorySessionRepository, fakerLocation)
+    fakerEncryption = new FakerEncryption()
+    sut = new CreateSessionUseCase(
+      inMemorySessionRepository,
+      fakerLocation,
+      fakerEncryption,
+    )
   })
 
   it('should be able to create a session', async () => {
