@@ -12,6 +12,14 @@ export class InMemorySessionRepository implements SessionRepository {
     return session
   }
 
+  async findByUserId(userId: string) {
+    const session = this.items.find((session) => session.userId === userId)
+
+    if (!session) return null
+
+    return session
+  }
+
   async findManyRecent(userId: string) {
     const recentSession = this.items
       .filter((session) => session.userId === userId)

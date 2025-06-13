@@ -20,6 +20,18 @@ export class PrismaSessionRepository implements SessionRepository {
     return PrismaSessionMapper.toDomain(session)
   }
 
+  async findByUserId(userId: string) {
+    const session = await this.prisma.session.findFirst({
+      where: {
+        userId,
+      },
+    })
+
+    if (!session) return null
+
+    return PrismaSessionMapper.toDomain(session)
+  }
+
   async findManyRecent(userId: string) {
     const recentSession = await this.prisma.session.findFirst({
       where: {
