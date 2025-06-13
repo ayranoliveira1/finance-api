@@ -4,6 +4,14 @@ import { Session } from '@/domain/enterprise/entities/session'
 export class InMemorySessionRepository implements SessionRepository {
   public items: Session[] = []
 
+  async findById(id: string) {
+    const session = this.items.find((session) => session.id.toString() === id)
+
+    if (!session) return null
+
+    return session
+  }
+
   async findManyRecent(userId: string) {
     const recentSession = this.items
       .filter((session) => session.userId === userId)

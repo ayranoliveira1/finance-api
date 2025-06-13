@@ -8,6 +8,18 @@ import { Session } from '@/domain/enterprise/entities/session'
 export class PrismaSessionRepository implements SessionRepository {
   constructor(private prisma: PrismaService) {}
 
+  async findById(id: string) {
+    const session = await this.prisma.session.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    if (!session) return null
+
+    return PrismaSessionMapper.toDomain(session)
+  }
+
   async findManyRecent(userId: string) {
     const recentSession = await this.prisma.session.findFirst({
       where: {
