@@ -2,18 +2,32 @@ import { InMemorySessionRepository } from 'test/repositories/in-memory-session-r
 import { FetchRecentSessionUseCase } from './fetch-recent-session'
 import { makeSession } from 'test/factories/make-session'
 import { ResourceNotFoundError } from '@/core/@types/errors/resource-not-found-error'
+import { FakerEncryption } from 'test/cryptography/faker-encryption'
 
 let inMemorySessionRepository: InMemorySessionRepository
+let fakerEncryption: FakerEncryption
 let sut: FetchRecentSessionUseCase
 
 describe('Fetch Recent Session Use Case', () => {
   beforeEach(() => {
     inMemorySessionRepository = new InMemorySessionRepository()
-    sut = new FetchRecentSessionUseCase(inMemorySessionRepository)
+    fakerEncryption = new FakerEncryption()
+    sut = new FetchRecentSessionUseCase(
+      inMemorySessionRepository,
+      fakerEncryption,
+    )
   })
 
   it('should be able to fetch recent session', async () => {
-    const session = makeSession()
+    const session = makeSession({
+      ip: await fakerEncryption.encrypt('192.168.0.1'),
+      browser: await fakerEncryption.encrypt('Chrome'),
+      os: await fakerEncryption.encrypt('Windows'),
+      deviceType: await fakerEncryption.encrypt('Desktop'),
+      country: await fakerEncryption.encrypt('USA'),
+      city: await fakerEncryption.encrypt('New York'),
+      region: await fakerEncryption.encrypt('NY'),
+    })
 
     await inMemorySessionRepository.create(session)
 
@@ -21,9 +35,19 @@ describe('Fetch Recent Session Use Case', () => {
       userId: session.userId,
     })
 
+    console.log(result.value)
+
     expect(result.isRight()).toBe(true)
     expect(result.value).toEqual({
-      session: inMemorySessionRepository.items[0],
+      session: expect.objectContaining({
+        ip: '192.168.0.1',
+        browser: 'Chrome',
+        os: 'Windows',
+        deviceType: 'Desktop',
+        country: 'USA',
+        city: 'New York',
+        region: 'NY',
+      }),
     })
   })
 
