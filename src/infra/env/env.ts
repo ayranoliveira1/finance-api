@@ -10,6 +10,7 @@ export const envShema = z.object({
   STRIPE_WEBHOOK_SECRET: z.string(),
   APP_URL: z.string().url(),
   OPENAI_API_KEY: z.string(),
+  CRYPTO_SECRET_KEY: z.string(),
 })
 
 export type Env = z.infer<typeof envShema>
