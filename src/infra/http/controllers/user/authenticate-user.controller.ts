@@ -101,6 +101,13 @@ export class AuthenticateUserController {
       maxAge: 3 * 24 * 60 * 60 * 1000,
     })
 
+    res.cookie('session_id', response.value.session.id.toString(), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 3 * 24 * 60 * 60 * 1000,
+    })
+
     return {
       token: token,
     }
