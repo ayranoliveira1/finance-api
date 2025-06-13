@@ -4,6 +4,7 @@ import { Either, left, right } from '@/core/either'
 import { SessionRepository } from '../../repositories/session-repository'
 import { Session } from '@/domain/enterprise/entities/session'
 import { ResourceNotFoundError } from '@/core/@types/errors/resource-not-found-error'
+import { Encryption } from '../../cryptography/encryption'
 
 interface CreateSessionUseCaseRequest {
   ip: string
@@ -25,6 +26,7 @@ export class CreateSessionUseCase {
   constructor(
     private sessionRepository: SessionRepository,
     private locationMethods: LocationMethods,
+    private encryption: Encryption,
   ) {}
 
   async execute({
@@ -40,14 +42,22 @@ export class CreateSessionUseCase {
       return left(new ResourceNotFoundError())
     }
 
+    const ipEncrypted = await this.encryption.encrypt(ip)
+    const browserEncrypted = await this.encryption.encrypt(browser)
+    const osEncrypted = await this.encryption.encrypt(os)
+    const deviceTypeEncrypted = await this.encryption.encrypt(deviceType)
+    const countryEncrypted = await this.encryption.encrypt(location.country)
+    const cityEncrypted = await this.encryption.encrypt(location.city)
+    const regionEncrypted = await this.encryption.encrypt(location.region)
+
     const session = Session.create({
-      ip,
-      browser,
-      os,
-      deviceType,
-      country: location.country,
-      city: location.city,
-      region: location.region,
+      ip: ipEncrypted,
+      browser: browserEncrypted,
+      os: osEncrypted,
+      deviceType: deviceTypeEncrypted,
+      country: countryEncrypted,
+      city: cityEncrypted,
+      region: regionEncrypted,
       userId,
     })
 
