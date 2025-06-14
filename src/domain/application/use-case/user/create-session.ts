@@ -36,6 +36,12 @@ export class CreateSessionUseCase {
     deviceType,
     userId,
   }: CreateSessionUseCaseRequest): Promise<CreateSessionUseCaseResponse> {
+    const sessionExists = await this.sessionRepository.findByUserId(userId)
+
+    if (sessionExists) {
+      await this.sessionRepository.delete(sessionExists)
+    }
+
     const location = await this.locationMethods.getLocationByIp(ip)
 
     if (!location) {

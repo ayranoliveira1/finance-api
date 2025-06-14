@@ -8,12 +8,28 @@ import { Session } from '@/domain/enterprise/entities/session'
 export class PrismaSessionRepository implements SessionRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(session: Session) {
-    const data = PrismaSessionMapper.toPrisma(session)
-
-    await this.prisma.session.create({
-      data,
+  async findById(id: string) {
+    const session = await this.prisma.session.findUnique({
+      where: {
+        id,
+      },
     })
+
+    if (!session) return null
+
+    return PrismaSessionMapper.toDomain(session)
+  }
+
+  async findByUserId(userId: string) {
+    const session = await this.prisma.session.findFirst({
+      where: {
+        userId,
+      },
+    })
+
+    if (!session) return null
+
+    return PrismaSessionMapper.toDomain(session)
   }
 
   async findManyRecent(userId: string) {
@@ -29,5 +45,23 @@ export class PrismaSessionRepository implements SessionRepository {
     if (!recentSession) return null
 
     return PrismaSessionMapper.toDomain(recentSession)
+  }
+
+  async create(session: Session) {
+    const data = PrismaSessionMapper.toPrisma(session)
+
+    await this.prisma.session.create({
+      data,
+    })
+  }
+
+  async delete(session: Session) {
+    const data = PrismaSessionMapper.toPrisma(session)
+
+    await this.prisma.session.delete({
+      where: {
+        id: data.id,
+      },
+    })
   }
 }
