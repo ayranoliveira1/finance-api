@@ -14,19 +14,28 @@ datasource db {
 }
 
 model User {
-  id               String           @id @default(uuid())
-  email            String           @unique
-  name             String
-  password         String
-  subscriptionPlan SubscriptionPlan @default(FREE)
-  role             UserRole         @default(USER)
-  Transaction      Transaction[]
+  id                 String           @id @default(uuid())
+  email              String           @unique
+  name               String
+  password           String
+  verificationCode   String?          @unique @map("verification_code")
+  codeExpirationDate DateTime?        @map("code_expiration_date")
+  isEmailVerified    Boolean          @default(false) @map("is_email_verified")
+  status             UserStatus       @default(ACTIVE)
+  subscriptionPlan   SubscriptionPlan @default(FREE)
+  role               UserRole         @default(USER)
+  Transaction        Transaction[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Session   Session[]
 
   @@map("users")
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
 }
 
 enum UserRole {
