@@ -8,6 +8,9 @@ export interface UserProps {
   password: string
   subscriptionPlan: string
   role: string
+  isVerified?: boolean
+  verificationCode?: string | null
+  codeExpiresAt?: Date | null
   createdAt: Date
   updatedAt?: Date
 }
@@ -41,6 +44,18 @@ export class User extends Entity<UserProps> {
     return this.props.subscriptionPlan
   }
 
+  get isVerified() {
+    return this.props.isVerified ?? false
+  }
+
+  get verificationCode() {
+    return this.props.verificationCode ?? null
+  }
+
+  get codeExpiresAt() {
+    return this.props.codeExpiresAt ?? null
+  }
+
   set name(name: string) {
     this.props.name = name
     this.touch()
@@ -70,8 +85,24 @@ export class User extends Entity<UserProps> {
     this.props.updatedAt = new Date()
   }
 
+  setVerificationCode(code: string, expiresAt: Date) {
+    this.props.verificationCode = code
+    this.props.codeExpiresAt = expiresAt
+    this.touch()
+  }
+
+  verify() {
+    this.props.isVerified = true
+    this.props.verificationCode = null
+    this.props.codeExpiresAt = null
+    this.touch()
+  }
+
   static create(
-    props: Optional<UserProps, 'createdAt' | 'subscriptionPlan' | 'role'>,
+    props: Optional<
+      UserProps,
+      'createdAt' | 'subscriptionPlan' | 'isVerified' | 'role'
+    >,
     id?: UniqueEntityId,
   ) {
     const user = new User(
@@ -80,6 +111,7 @@ export class User extends Entity<UserProps> {
         subscriptionPlan: props.subscriptionPlan ?? 'FREE',
         createdAt: props.createdAt ?? new Date(),
         role: props.role ?? 'USER',
+        isVerified: props.isVerified ?? false,
       },
       id,
     )
