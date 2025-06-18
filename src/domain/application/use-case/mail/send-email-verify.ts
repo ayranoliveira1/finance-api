@@ -5,17 +5,17 @@ import { Mail } from '../../mail/mail'
 import { UserRepository } from '../../repositories/user-repository'
 import { InvalidCredentialsError } from '../errors/invalid-credentials-error'
 
-interface SendEmailUseCaseRequest {
+interface SendEmailVerifyUseCaseRequest {
   email: string
 }
 
-type SendEmailUseCaseResponse = Either<
+type SendEmailVerifyUseCaseResponse = Either<
   EmailAlreadyVerifiedError | InvalidCredentialsError,
   null
 >
 
 @Injectable()
-export class SendEmailUseCase {
+export class SendEmailVerifyUseCase {
   constructor(
     private userRepository: UserRepository,
     private mail: Mail,
@@ -23,20 +23,27 @@ export class SendEmailUseCase {
 
   async execute({
     email,
-  }: SendEmailUseCaseRequest): Promise<SendEmailUseCaseResponse> {
+  }: SendEmailVerifyUseCaseRequest): Promise<SendEmailVerifyUseCaseResponse> {
     const user = await this.userRepository.findByEmail(email)
 
     if (!user) {
       return left(new InvalidCredentialsError())
     }
 
-    if (user.isVerified) {
+    if (user.isEmailVerified) {
       return left(new EmailAlreadyVerifiedError())
     }
 
+    const code = Math.floor(100000 + Math.random() * 900000).toString()
+    const expiresAt = new Date(Date.now() + 1000 * 60 * 10)
+
+    user.setVerificationCode(code, expiresAt)
+    await this.userRepository.save(user)
+
     await this.mail.sendEmail(
       user.email,
-      'verifique seu e-mail',
+      user.name,
+      'Verifique seu e-mail',
       `Seu código de verificação é: ${user.verificationCode}`,
     )
 

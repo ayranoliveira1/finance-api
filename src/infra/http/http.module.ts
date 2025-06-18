@@ -42,6 +42,11 @@ import { LocationModule } from '../location/location.module'
 import { FetchRecentSessionController } from './controllers/user/fecth-recent-session.controller'
 import { FetchRecentSessionUseCase } from '@/domain/application/use-case/user/fetch-recent-session'
 import { VerifySessionUseCase } from '@/domain/application/use-case/user/verify-session'
+import { NodemailerModule } from '../mail/nodemailer/nodemaile.module'
+import { SendEmailVerifyController } from './controllers/mail/send-email-verify.controller'
+import { SendEmailVerifyUseCase } from '@/domain/application/use-case/mail/send-email-verify'
+import { VerifyUserController } from './controllers/user/verify-user.controller'
+import { VerifyUserUseCase } from '@/domain/application/use-case/user/verify-user'
 
 @Module({
   imports: [
@@ -50,9 +55,12 @@ import { VerifySessionUseCase } from '@/domain/application/use-case/user/verify-
     StripeModule,
     OpenAIModule,
     LocationModule,
+    NodemailerModule,
   ],
   controllers: [
     CreateAccountController,
+    SendEmailVerifyController,
+    VerifyUserController,
     AuthenticateUserController,
     FetchRecentSessionController,
     RefreshTokenController,
@@ -73,6 +81,8 @@ import { VerifySessionUseCase } from '@/domain/application/use-case/user/verify-
   ],
   providers: [
     RegisterUseCase,
+    SendEmailVerifyUseCase,
+    VerifyUserUseCase,
     AuthenticateUserUseCase,
     CreateSessionUseCase,
     FetchRecentSessionUseCase,

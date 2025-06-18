@@ -1,3 +1,4 @@
+import { UserStatus } from '@/core/@types/enums'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { User } from '@/domain/enterprise/entities/user'
 import { Prisma, User as PrisaUser } from '@prisma/client'
@@ -11,6 +12,10 @@ export class PrismaUserMapper {
         password: raw.password,
         role: raw.role,
         subscriptionPlan: raw.subscriptionPlan,
+        codeExpiresAt: raw.codeExpirationDate,
+        verificationCode: raw.verificationCode,
+        isEmailVerified: raw.isEmailVerified,
+        status: raw.status as UserStatus,
       },
       new UniqueEntityId(raw.id),
     )
@@ -22,6 +27,10 @@ export class PrismaUserMapper {
       name: user.name,
       email: user.email,
       password: user.password,
+      codeExpirationDate: user.codeExpiresAt,
+      verificationCode: user.verificationCode,
+      isEmailVerified: user.isEmailVerified,
+      status: user.status,
     }
   }
 }

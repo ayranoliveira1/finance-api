@@ -1,3 +1,4 @@
+import { UserStatus } from '@/core/@types/enums'
 import { Optional } from '@/core/@types/options'
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
@@ -8,7 +9,8 @@ export interface UserProps {
   password: string
   subscriptionPlan: string
   role: string
-  isVerified?: boolean
+  status?: UserStatus
+  isEmailVerified?: boolean
   verificationCode?: string | null
   codeExpiresAt?: Date | null
   createdAt: Date
@@ -32,20 +34,16 @@ export class User extends Entity<UserProps> {
     return this.props.password
   }
 
-  get createdAt() {
-    return this.props.createdAt
-  }
-
-  get updatedAt() {
-    return this.props.updatedAt
+  get status() {
+    return this.props.status ?? UserStatus.ACTIVE
   }
 
   get subscriptionPlan() {
     return this.props.subscriptionPlan
   }
 
-  get isVerified() {
-    return this.props.isVerified ?? false
+  get isEmailVerified() {
+    return this.props.isEmailVerified ?? false
   }
 
   get verificationCode() {
@@ -54,6 +52,14 @@ export class User extends Entity<UserProps> {
 
   get codeExpiresAt() {
     return this.props.codeExpiresAt ?? null
+  }
+
+  get createdAt() {
+    return this.props.createdAt
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt
   }
 
   set name(name: string) {
@@ -81,6 +87,26 @@ export class User extends Entity<UserProps> {
     this.touch()
   }
 
+  set status(status: UserStatus) {
+    this.props.status = status
+    this.touch()
+  }
+
+  set isEmailVerified(isEmailVerified: boolean) {
+    this.props.isEmailVerified = isEmailVerified
+    this.touch()
+  }
+
+  set verificationCode(verificationCode: string | null) {
+    this.props.verificationCode = verificationCode
+    this.touch()
+  }
+
+  set codeExpiresAt(codeExpiresAt: Date | null) {
+    this.props.codeExpiresAt = codeExpiresAt
+    this.touch()
+  }
+
   private touch() {
     this.props.updatedAt = new Date()
   }
@@ -92,7 +118,7 @@ export class User extends Entity<UserProps> {
   }
 
   verify() {
-    this.props.isVerified = true
+    this.props.isEmailVerified = true
     this.props.verificationCode = null
     this.props.codeExpiresAt = null
     this.touch()
@@ -101,7 +127,7 @@ export class User extends Entity<UserProps> {
   static create(
     props: Optional<
       UserProps,
-      'createdAt' | 'subscriptionPlan' | 'isVerified' | 'role'
+      'createdAt' | 'subscriptionPlan' | 'isEmailVerified' | 'status' | 'role'
     >,
     id?: UniqueEntityId,
   ) {
@@ -111,7 +137,8 @@ export class User extends Entity<UserProps> {
         subscriptionPlan: props.subscriptionPlan ?? 'FREE',
         createdAt: props.createdAt ?? new Date(),
         role: props.role ?? 'USER',
-        isVerified: props.isVerified ?? false,
+        isEmailVerified: props.isEmailVerified ?? false,
+        status: props.status ?? UserStatus.ACTIVE,
       },
       id,
     )

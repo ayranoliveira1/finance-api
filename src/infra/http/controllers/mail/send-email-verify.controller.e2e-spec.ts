@@ -5,7 +5,7 @@ import { Test } from '@nestjs/testing'
 import { hash } from 'bcryptjs'
 import request from 'supertest'
 
-describe('Fecth Recent Session (E2E)', () => {
+describe('Send verify email (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
 
@@ -21,34 +21,21 @@ describe('Fecth Recent Session (E2E)', () => {
     await app.init()
   })
 
-  test('[GET] /sessions/recent', async () => {
+  test('[POST] /mail/send-email-verify', async () => {
     await prisma.user.create({
       data: {
         name: 'John Doe',
         email: 'johndoe@gmail.com',
         password: await hash('12345678', 8),
-        isEmailVerified: true,
       },
     })
 
-    const login = await request(app.getHttpServer()).post('/auth/login').send({
-      email: 'johndoe@gmail.com',
-      password: '12345678',
-      ip: '8.8.8.8',
-    })
-
     const response = await request(app.getHttpServer())
-      .get('/sessions/recent')
-      .set('Authorization', `Bearer ${login.body.token}`)
+      .post('/mail/send-email-verify')
+      .send({
+        email: 'johndoe@gmail.com',
+      })
 
-    expect(response.statusCode).toBe(200)
-
-    expect(response.body).toEqual(
-      expect.objectContaining({
-        session: expect.objectContaining({
-          id: expect.any(String),
-        }),
-      }),
-    )
+    expect(response.statusCode).toBe(201)
   })
 })

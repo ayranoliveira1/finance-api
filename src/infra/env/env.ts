@@ -11,6 +11,11 @@ export const envShema = z.object({
   APP_URL: z.string().url(),
   OPENAI_API_KEY: z.string(),
   CRYPTO_SECRET_KEY: z.string(),
+  EMAIL_REDIRECT_URI: z.string().url(),
+  EMAIL_REFRESH_TOKEN: z.string(),
+  EMAIL_CLIENT_SECRET: z.string(),
+  EMAIL_CLIENT_ID: z.string(),
+  EMAIL_USER: z.string().email(),
 })
 
 export type Env = z.infer<typeof envShema>

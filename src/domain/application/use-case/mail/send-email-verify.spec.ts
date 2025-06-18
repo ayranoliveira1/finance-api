@@ -1,19 +1,19 @@
 import { FakerMail } from 'test/mail/faker-mail'
 import { InMemoryUserRepository } from 'test/repositories/in-memory-user-repository'
-import { SendEmailUseCase } from './send-email'
+import { SendEmailVerifyUseCase } from './send-email-verify'
 import { makeUser } from 'test/factories/make-user'
 import { EmailAlreadyVerifiedError } from '@/core/@types/errors/email-already-verified-error'
 import { InvalidCredentialsError } from '../errors/invalid-credentials-error'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let fakerMail: FakerMail
-let sut: SendEmailUseCase
+let sut: SendEmailVerifyUseCase
 
-describe('SendEmailUseCase', () => {
+describe('SendEmailVerifyUseCase', () => {
   beforeEach(() => {
     inMemoryUserRepository = new InMemoryUserRepository()
     fakerMail = new FakerMail()
-    sut = new SendEmailUseCase(inMemoryUserRepository, fakerMail)
+    sut = new SendEmailVerifyUseCase(inMemoryUserRepository, fakerMail)
   })
 
   it('should be able to send an email to a user with an unverified email', async () => {
@@ -30,7 +30,7 @@ describe('SendEmailUseCase', () => {
 
   it('should not be able to send an email to a user with a verified email', async () => {
     const user = makeUser({
-      isVerified: true,
+      isEmailVerified: true,
     })
 
     inMemoryUserRepository.items.push(user)
