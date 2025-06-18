@@ -27,6 +27,7 @@ describe('Authenticate (E2E)', () => {
         name: 'John Doe',
         email: 'johndoe@gmail.com',
         password: await hash('12345678', 8),
+        isEmailVerified: true,
       },
     })
 

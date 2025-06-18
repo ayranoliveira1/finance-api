@@ -17,6 +17,8 @@ import { InvalidCredentialsError } from '@/domain/application/use-case/errors/in
 import { CreateSessionUseCase } from '@/domain/application/use-case/user/create-session'
 import { ResourceNotFoundError } from '@/core/@types/errors/resource-not-found-error'
 import { UAParser } from 'ua-parser-js'
+import { EmailNotVerifiedError } from '@/core/@types/errors/email-is-not-verified-error'
+import { UserNotActiveError } from '@/core/@types/errors/user-not-active-error'
 
 const authenticateBodySchema = z.object({
   email: z.string().email(),
@@ -57,6 +59,10 @@ export class AuthenticateUserController {
 
       switch (error.constructor) {
         case InvalidCredentialsError:
+          throw new UnauthorizedException(error.message)
+        case EmailNotVerifiedError:
+          throw new UnauthorizedException(error.message)
+        case UserNotActiveError:
           throw new UnauthorizedException(error.message)
         default:
           throw new BadRequestException(error.message)
