@@ -43,6 +43,8 @@ import { FetchRecentSessionController } from './controllers/user/fecth-recent-se
 import { FetchRecentSessionUseCase } from '@/domain/application/use-case/user/fetch-recent-session'
 import { VerifySessionUseCase } from '@/domain/application/use-case/user/verify-session'
 import { NodemailerModule } from '../mail/nodemailer/nodemaile.module'
+import { SendEmailVerifyController } from './controllers/mail/send-email-verify.controller'
+import { SendEmailVerifyUseCase } from '@/domain/application/use-case/mail/send-email-verify'
 
 @Module({
   imports: [
@@ -55,6 +57,7 @@ import { NodemailerModule } from '../mail/nodemailer/nodemaile.module'
   ],
   controllers: [
     CreateAccountController,
+    SendEmailVerifyController,
     AuthenticateUserController,
     FetchRecentSessionController,
     RefreshTokenController,
@@ -75,6 +78,7 @@ import { NodemailerModule } from '../mail/nodemailer/nodemaile.module'
   ],
   providers: [
     RegisterUseCase,
+    SendEmailVerifyUseCase,
     AuthenticateUserUseCase,
     CreateSessionUseCase,
     FetchRecentSessionUseCase,
