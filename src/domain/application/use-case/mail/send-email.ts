@@ -34,9 +34,16 @@ export class SendEmailUseCase {
       return left(new EmailAlreadyVerifiedError())
     }
 
+    const code = Math.floor(100000 + Math.random() * 900000).toString()
+    const expiresAt = new Date(Date.now() + 1000 * 60 * 10)
+
+    user.setVerificationCode(code, expiresAt)
+    await this.userRepository.save(user)
+
     await this.mail.sendEmail(
       user.email,
-      'verifique seu e-mail',
+      user.name,
+      'Verifique seu e-mail',
       `Seu código de verificação é: ${user.verificationCode}`,
     )
 

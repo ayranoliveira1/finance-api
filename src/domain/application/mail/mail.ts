@@ -1,3 +1,8 @@
 export abstract class Mail {
-  abstract sendEmail(to: string, subject: string, body: string): Promise<void>
+  abstract sendEmail(
+    to: string,
+    name: string,
+    subject: string,
+    body: string,
+  ): Promise<void>
 }
