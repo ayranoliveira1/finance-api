@@ -4,6 +4,9 @@ import { HashCompare } from '../../cryptography/hash-compare'
 import { Encrypter } from '../../cryptography/encrypter'
 import { Injectable } from '@nestjs/common'
 import { UserRepository } from '../../repositories/user-repository'
+import { EmailNotVerifiedError } from '@/core/@types/errors/email-is-not-verified-error'
+import { UserStatus } from '@/core/@types/enums'
+import { UserNotActiveError } from '@/core/@types/errors/user-not-active-error'
 
 interface AuthenticateUserUseCaseRequest {
   email: string
@@ -11,7 +14,7 @@ interface AuthenticateUserUseCaseRequest {
 }
 
 type AuthenticateUserUseCaseResponse = Either<
-  InvalidCredentialsError,
+  InvalidCredentialsError | EmailNotVerifiedError | UserNotActiveError,
   {
     token: string
     refreshToken: string
@@ -35,6 +38,14 @@ export class AuthenticateUserUseCase {
 
     if (!user) {
       return left(new InvalidCredentialsError())
+    }
+
+    if (!user.isEmailVerified) {
+      return left(new EmailNotVerifiedError())
+    }
+
+    if (user.status !== UserStatus.ACTIVE) {
+      return left(new UserNotActiveError())
     }
 
     const passwordIsValid = await this.hashCompare.compare(

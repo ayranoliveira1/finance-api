@@ -30,7 +30,7 @@ export class SendEmailVerifyUseCase {
       return left(new InvalidCredentialsError())
     }
 
-    if (user.isVerified) {
+    if (user.isEmailVerified) {
       return left(new EmailAlreadyVerifiedError())
     }
 

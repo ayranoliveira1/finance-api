@@ -33,7 +33,7 @@ export class VerifyUserUseCase {
       return left(new InvalidCredentialsError())
     }
 
-    if (user.isVerified) {
+    if (user.isEmailVerified) {
       return left(new EmailAlreadyVerifiedError())
     }
 

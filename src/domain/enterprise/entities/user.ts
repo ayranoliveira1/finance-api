@@ -1,3 +1,4 @@
+import { UserStatus } from '@/core/@types/enums'
 import { Optional } from '@/core/@types/options'
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
@@ -8,6 +9,7 @@ export interface UserProps {
   password: string
   subscriptionPlan: string
   role: string
+  status?: UserStatus
   isEmailVerified?: boolean
   verificationCode?: string | null
   codeExpiresAt?: Date | null
@@ -32,19 +34,15 @@ export class User extends Entity<UserProps> {
     return this.props.password
   }
 
-  get createdAt() {
-    return this.props.createdAt
-  }
-
-  get updatedAt() {
-    return this.props.updatedAt
+  get status() {
+    return this.props.status ?? UserStatus.ACTIVE
   }
 
   get subscriptionPlan() {
     return this.props.subscriptionPlan
   }
 
-  get isVerified() {
+  get isEmailVerified() {
     return this.props.isEmailVerified ?? false
   }
 
@@ -54,6 +52,14 @@ export class User extends Entity<UserProps> {
 
   get codeExpiresAt() {
     return this.props.codeExpiresAt ?? null
+  }
+
+  get createdAt() {
+    return this.props.createdAt
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt
   }
 
   set name(name: string) {
@@ -101,7 +107,7 @@ export class User extends Entity<UserProps> {
   static create(
     props: Optional<
       UserProps,
-      'createdAt' | 'subscriptionPlan' | 'isEmailVerified' | 'role'
+      'createdAt' | 'subscriptionPlan' | 'isEmailVerified' | 'status' | 'role'
     >,
     id?: UniqueEntityId,
   ) {
@@ -112,6 +118,7 @@ export class User extends Entity<UserProps> {
         createdAt: props.createdAt ?? new Date(),
         role: props.role ?? 'USER',
         isEmailVerified: props.isEmailVerified ?? false,
+        status: props.status ?? UserStatus.ACTIVE,
       },
       id,
     )

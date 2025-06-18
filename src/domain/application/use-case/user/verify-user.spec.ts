@@ -30,7 +30,7 @@ describe('Verify User Use Case', () => {
     })
 
     expect(result.isRight()).toBe(true)
-    expect(inMemoryUserRepository.items[0].isVerified).toBe(true)
+    expect(inMemoryUserRepository.items[0].isEmailVerified).toBe(true)
   })
 
   it('should not be able to verify a user with invalid email', async () => {
@@ -48,7 +48,7 @@ describe('Verify User Use Case', () => {
     })
 
     expect(result.isLeft()).toBe(true)
-    expect(inMemoryUserRepository.items[0].isVerified).toBe(false)
+    expect(inMemoryUserRepository.items[0].isEmailVerified).toBe(false)
     expect(result.value).toBeInstanceOf(InvalidCredentialsError)
   })
 
@@ -64,7 +64,7 @@ describe('Verify User Use Case', () => {
       code: '123456',
     })
     expect(result.isLeft()).toBe(true)
-    expect(inMemoryUserRepository.items[0].isVerified).toBe(true)
+    expect(inMemoryUserRepository.items[0].isEmailVerified).toBe(true)
     expect(result.value).toBeInstanceOf(EmailAlreadyVerifiedError)
   })
 
@@ -83,7 +83,7 @@ describe('Verify User Use Case', () => {
     })
 
     expect(result.isLeft()).toBe(true)
-    expect(inMemoryUserRepository.items[0].isVerified).toBe(false)
+    expect(inMemoryUserRepository.items[0].isEmailVerified).toBe(false)
     expect(result.value).toBeInstanceOf(InvalidCodeError)
   })
 
@@ -102,7 +102,7 @@ describe('Verify User Use Case', () => {
     })
 
     expect(result.isLeft()).toBe(true)
-    expect(inMemoryUserRepository.items[0].isVerified).toBe(false)
+    expect(inMemoryUserRepository.items[0].isEmailVerified).toBe(false)
     expect(result.value).toBeInstanceOf(VerificationCodeExpiredError)
   })
 })

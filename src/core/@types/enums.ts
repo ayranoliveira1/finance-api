@@ -30,3 +30,8 @@ export enum SubscriptionPlan {
   FREE = 'FREE',
   PREMIUM = 'PREMIUM',
 }
+
+export enum UserStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+}

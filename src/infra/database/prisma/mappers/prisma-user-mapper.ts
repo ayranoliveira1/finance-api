@@ -1,3 +1,4 @@
+import { UserStatus } from '@/core/@types/enums'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { User } from '@/domain/enterprise/entities/user'
 import { Prisma, User as PrisaUser } from '@prisma/client'
@@ -14,6 +15,7 @@ export class PrismaUserMapper {
         codeExpiresAt: raw.codeExpirationDate,
         verificationCode: raw.verificationCode,
         isEmailVerified: raw.isEmailVerified,
+        status: raw.status as UserStatus,
       },
       new UniqueEntityId(raw.id),
     )
