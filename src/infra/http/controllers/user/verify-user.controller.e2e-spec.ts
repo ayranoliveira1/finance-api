@@ -39,8 +39,6 @@ describe('Verify user (E2E)', () => {
         code: '123456',
       })
 
-    console.log(response.body)
-
     expect(response.statusCode).toBe(201)
   })
 })
