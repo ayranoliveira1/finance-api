@@ -27,6 +27,8 @@ export class PrimsaUserRepository implements UserRepository {
     const user = await this.prisma.user.findUnique({
       where: {
         id,
+        isEmailVerified: true,
+        status: 'ACTIVE',
       },
     })
 
@@ -51,6 +53,8 @@ export class PrimsaUserRepository implements UserRepository {
     await this.prisma.user.delete({
       where: {
         id: data.id,
+        isEmailVerified: true,
+        status: 'ACTIVE',
       },
     })
   }
@@ -62,6 +66,8 @@ export class PrimsaUserRepository implements UserRepository {
     await this.prisma.user.update({
       where: {
         id: userID,
+        isEmailVerified: true,
+        status: 'ACTIVE',
       },
       data: {
         subscriptionPlan: planUser,
@@ -75,6 +81,7 @@ export class PrimsaUserRepository implements UserRepository {
     await this.prisma.user.update({
       where: {
         id: data.id,
+        status: 'ACTIVE',
       },
       data,
     })
