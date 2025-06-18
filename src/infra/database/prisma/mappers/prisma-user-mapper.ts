@@ -27,6 +27,10 @@ export class PrismaUserMapper {
       name: user.name,
       email: user.email,
       password: user.password,
+      codeExpirationDate: user.codeExpiresAt,
+      verificationCode: user.verificationCode,
+      isEmailVerified: user.isEmailVerified,
+      status: user.status,
     }
   }
 }

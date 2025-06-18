@@ -87,6 +87,26 @@ export class User extends Entity<UserProps> {
     this.touch()
   }
 
+  set status(status: UserStatus) {
+    this.props.status = status
+    this.touch()
+  }
+
+  set isEmailVerified(isEmailVerified: boolean) {
+    this.props.isEmailVerified = isEmailVerified
+    this.touch()
+  }
+
+  set verificationCode(verificationCode: string | null) {
+    this.props.verificationCode = verificationCode
+    this.touch()
+  }
+
+  set codeExpiresAt(codeExpiresAt: Date | null) {
+    this.props.codeExpiresAt = codeExpiresAt
+    this.touch()
+  }
+
   private touch() {
     this.props.updatedAt = new Date()
   }
