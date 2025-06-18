@@ -42,6 +42,7 @@ import { LocationModule } from '../location/location.module'
 import { FetchRecentSessionController } from './controllers/user/fecth-recent-session.controller'
 import { FetchRecentSessionUseCase } from '@/domain/application/use-case/user/fetch-recent-session'
 import { VerifySessionUseCase } from '@/domain/application/use-case/user/verify-session'
+import { NodemailerModule } from '../mail/nodemailer/nodemaile.module'
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { VerifySessionUseCase } from '@/domain/application/use-case/user/verify-
     StripeModule,
     OpenAIModule,
     LocationModule,
+    NodemailerModule,
   ],
   controllers: [
     CreateAccountController,
