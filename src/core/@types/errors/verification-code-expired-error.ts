@@ -6,6 +6,5 @@ export class VerificationCodeExpiredError
 {
   constructor() {
     super('Verification code has expired')
-    this.name = 'VerificationCodeExpiredError'
   }
 }
