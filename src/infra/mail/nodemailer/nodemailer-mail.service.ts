@@ -3,12 +3,13 @@ import { EnvService } from '@/infra/env/env.service'
 import { Injectable } from '@nestjs/common'
 import nodemailer from 'nodemailer'
 import { google } from 'googleapis'
+import { verifyEmailTemplate } from './tenplates/verify-email-template'
 
 @Injectable()
 export class NodemailerMailService implements Mail {
   constructor(private envService: EnvService) {}
 
-  async sendEmail(to: string, subject: string, body: string) {
+  async sendEmail(to: string, name: string, subject: string, body: string) {
     const oauth2Client = new google.auth.OAuth2(
       this.envService.get('EMAIL_CLIENT_ID'),
       this.envService.get('EMAIL_CLIENT_SECRET'),
@@ -44,9 +45,8 @@ export class NodemailerMailService implements Mail {
       from: this.envService.get('EMAIL_USER'),
       to,
       subject,
-      html: body,
+      html: verifyEmailTemplate({ name, subject, body }),
     }
-
     await transporter.sendMail(mailOptions)
   }
 }
