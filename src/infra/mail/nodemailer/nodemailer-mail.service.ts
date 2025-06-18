@@ -1,7 +1,7 @@
 import { Mail } from '@/domain/application/mail/mail'
 import { EnvService } from '@/infra/env/env.service'
 import { Injectable } from '@nestjs/common'
-import nodemailer from 'nodemailer'
+import * as nodemailer from 'nodemailer'
 import { google } from 'googleapis'
 import { verifyEmailTemplate } from './tenplates/verify-email-template'
 
