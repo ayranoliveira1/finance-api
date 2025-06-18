@@ -5,17 +5,17 @@ import { Mail } from '../../mail/mail'
 import { UserRepository } from '../../repositories/user-repository'
 import { InvalidCredentialsError } from '../errors/invalid-credentials-error'
 
-interface SendEmailUseCaseRequest {
+interface SendEmailVerifyUseCaseRequest {
   email: string
 }
 
-type SendEmailUseCaseResponse = Either<
+type SendEmailVerifyUseCaseResponse = Either<
   EmailAlreadyVerifiedError | InvalidCredentialsError,
   null
 >
 
 @Injectable()
-export class SendEmailUseCase {
+export class SendEmailVerifyUseCase {
   constructor(
     private userRepository: UserRepository,
     private mail: Mail,
@@ -23,7 +23,7 @@ export class SendEmailUseCase {
 
   async execute({
     email,
-  }: SendEmailUseCaseRequest): Promise<SendEmailUseCaseResponse> {
+  }: SendEmailVerifyUseCaseRequest): Promise<SendEmailVerifyUseCaseResponse> {
     const user = await this.userRepository.findByEmail(email)
 
     if (!user) {
