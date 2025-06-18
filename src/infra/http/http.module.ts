@@ -45,6 +45,8 @@ import { VerifySessionUseCase } from '@/domain/application/use-case/user/verify-
 import { NodemailerModule } from '../mail/nodemailer/nodemaile.module'
 import { SendEmailVerifyController } from './controllers/mail/send-email-verify.controller'
 import { SendEmailVerifyUseCase } from '@/domain/application/use-case/mail/send-email-verify'
+import { VerifyUserController } from './controllers/user/verify-user.controller'
+import { VerifyUserUseCase } from '@/domain/application/use-case/user/verify-user'
 
 @Module({
   imports: [
@@ -58,6 +60,7 @@ import { SendEmailVerifyUseCase } from '@/domain/application/use-case/mail/send-
   controllers: [
     CreateAccountController,
     SendEmailVerifyController,
+    VerifyUserController,
     AuthenticateUserController,
     FetchRecentSessionController,
     RefreshTokenController,
@@ -79,6 +82,7 @@ import { SendEmailVerifyUseCase } from '@/domain/application/use-case/mail/send-
   providers: [
     RegisterUseCase,
     SendEmailVerifyUseCase,
+    VerifyUserUseCase,
     AuthenticateUserUseCase,
     CreateSessionUseCase,
     FetchRecentSessionUseCase,
