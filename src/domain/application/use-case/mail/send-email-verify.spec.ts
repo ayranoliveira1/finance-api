@@ -30,7 +30,7 @@ describe('SendEmailVerifyUseCase', () => {
 
   it('should not be able to send an email to a user with a verified email', async () => {
     const user = makeUser({
-      isVerified: true,
+      isEmailVerified: true,
     })
 
     inMemoryUserRepository.items.push(user)

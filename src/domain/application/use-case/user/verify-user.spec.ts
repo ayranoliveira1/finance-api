@@ -17,7 +17,7 @@ describe('Verify User Use Case', () => {
 
   it('should be able to verify a user', async () => {
     const user = makeUser({
-      isVerified: false,
+      isEmailVerified: false,
       verificationCode: '123456',
       codeExpiresAt: new Date(Date.now() + 1000 * 60 * 10),
     })
@@ -35,7 +35,7 @@ describe('Verify User Use Case', () => {
 
   it('should not be able to verify a user with invalid email', async () => {
     const user = makeUser({
-      isVerified: false,
+      isEmailVerified: false,
       verificationCode: '123456',
       codeExpiresAt: new Date(Date.now() + 1000 * 60 * 10),
     })
@@ -54,7 +54,7 @@ describe('Verify User Use Case', () => {
 
   it('should not be able to verify a user with already verified email', async () => {
     const user = makeUser({
-      isVerified: true,
+      isEmailVerified: true,
       verificationCode: '123456',
       codeExpiresAt: new Date(Date.now() + 1000 * 60 * 10),
     })
@@ -70,7 +70,7 @@ describe('Verify User Use Case', () => {
 
   it('should not be able to verify a user with invalid code', async () => {
     const user = makeUser({
-      isVerified: false,
+      isEmailVerified: false,
       verificationCode: '123456',
       codeExpiresAt: new Date(Date.now() + 1000 * 60 * 10),
     })
@@ -89,7 +89,7 @@ describe('Verify User Use Case', () => {
 
   it('should not be able to verify a user with expired code', async () => {
     const user = makeUser({
-      isVerified: false,
+      isEmailVerified: false,
       verificationCode: '123456',
       codeExpiresAt: new Date(Date.now() - 1000 * 60 * 10),
     })

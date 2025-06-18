@@ -8,7 +8,7 @@ export interface UserProps {
   password: string
   subscriptionPlan: string
   role: string
-  isVerified?: boolean
+  isEmailVerified?: boolean
   verificationCode?: string | null
   codeExpiresAt?: Date | null
   createdAt: Date
@@ -45,7 +45,7 @@ export class User extends Entity<UserProps> {
   }
 
   get isVerified() {
-    return this.props.isVerified ?? false
+    return this.props.isEmailVerified ?? false
   }
 
   get verificationCode() {
@@ -92,7 +92,7 @@ export class User extends Entity<UserProps> {
   }
 
   verify() {
-    this.props.isVerified = true
+    this.props.isEmailVerified = true
     this.props.verificationCode = null
     this.props.codeExpiresAt = null
     this.touch()
@@ -101,7 +101,7 @@ export class User extends Entity<UserProps> {
   static create(
     props: Optional<
       UserProps,
-      'createdAt' | 'subscriptionPlan' | 'isVerified' | 'role'
+      'createdAt' | 'subscriptionPlan' | 'isEmailVerified' | 'role'
     >,
     id?: UniqueEntityId,
   ) {
@@ -111,7 +111,7 @@ export class User extends Entity<UserProps> {
         subscriptionPlan: props.subscriptionPlan ?? 'FREE',
         createdAt: props.createdAt ?? new Date(),
         role: props.role ?? 'USER',
-        isVerified: props.isVerified ?? false,
+        isEmailVerified: props.isEmailVerified ?? false,
       },
       id,
     )

@@ -11,6 +11,9 @@ export class PrismaUserMapper {
         password: raw.password,
         role: raw.role,
         subscriptionPlan: raw.subscriptionPlan,
+        codeExpiresAt: raw.codeExpirationDate,
+        verificationCode: raw.verificationCode,
+        isEmailVerified: raw.isEmailVerified,
       },
       new UniqueEntityId(raw.id),
     )
