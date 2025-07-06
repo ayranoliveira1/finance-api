@@ -6,4 +6,10 @@ export class FakerMail implements Mail {
     console.log(`Subject: ${subject}`)
     console.log(`Body: ${body}`)
   }
+
+  async sendEmailResetPassword(to: string, subject: string, code: string) {
+    console.log(`Email sent to: ${to}`)
+    console.log(`Subject: ${subject}`)
+    console.log(`Body: ${code}`)
+  }
 }
