@@ -3,13 +3,6 @@ export abstract class Mail {
     to: string,
     name: string,
     subject: string,
-    body: string,
-  ): Promise<void>
-
-  abstract sendEmailResetPassword(
-    to: string,
-    name: string,
-    subject: string,
-    code: string,
+    html: string,
   ): Promise<void>
 }

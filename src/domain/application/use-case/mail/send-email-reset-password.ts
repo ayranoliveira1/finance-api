@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common'
 import { InvalidCredentialsError } from '../errors/invalid-credentials-error'
 import { UserRepository } from '../../repositories/user-repository'
 import { Mail } from '../../mail/mail'
+import { resetPasswordTemplate } from './templates/reset-password-template'
 
 interface SendEmailResetPasswordUseCaseRequest {
   email: string
@@ -35,11 +36,15 @@ export class SendEmailResetPasswordUseCase {
     user.setVerificationCode(code, expiresAt)
     await this.userRepository.save(user)
 
-    await this.mail.sendEmailResetPassword(
+    await this.mail.sendEmail(
       user.email,
       user.name,
       'Redefinição de senha',
-      user.verificationCode!,
+      resetPasswordTemplate({
+        name: user.name,
+        subject: 'Redefinição de senha',
+        code,
+      }),
     )
 
     return right(null)
