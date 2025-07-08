@@ -124,6 +124,13 @@ export class User extends Entity<UserProps> {
     this.touch()
   }
 
+  resetPassword(password: string) {
+    this.props.password = password
+    this.props.verificationCode = null
+    this.props.codeExpiresAt = null
+    this.touch()
+  }
+
   static create(
     props: Optional<
       UserProps,
