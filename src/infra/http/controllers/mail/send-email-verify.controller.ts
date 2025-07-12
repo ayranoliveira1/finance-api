@@ -27,8 +27,12 @@ export class SendEmailVerifyController {
 
   @Post()
   async handle(@Body(bodyValidationType) body: SendEmailVerifyBodyType) {
+    sendEmailVerifyBodySchema.parse(body)
+
+    const { email } = body
+
     const result = await this.sendEmailVerify.execute({
-      email: body.email,
+      email,
     })
 
     if (result.isLeft()) {

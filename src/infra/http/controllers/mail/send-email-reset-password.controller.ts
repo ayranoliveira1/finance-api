@@ -31,8 +31,12 @@ export class SendEmailResetPasswordController {
 
   @Post()
   async handle(@Body(bodyValidationType) body: SendEmailResetPasswordBodyType) {
+    sendEmailResetPasswordBodySchema.parse(body)
+
+    const { email } = body
+
     const result = await this.sendEmailResetPassword.execute({
-      email: body.email,
+      email,
     })
 
     if (result.isLeft()) {
