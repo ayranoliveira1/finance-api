@@ -43,8 +43,6 @@ export class ResetPasswordController {
       confirmNewPassword,
     })
 
-    console.log('ResetPasswordController', result.value)
-
     if (result.isLeft()) {
       const error = result.value
 
