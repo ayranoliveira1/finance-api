@@ -49,6 +49,8 @@ import { VerifyUserController } from './controllers/user/verify-user.controller'
 import { VerifyUserUseCase } from '@/domain/application/use-case/user/verify-user'
 import { SendEmailResetPasswordUseCase } from '@/domain/application/use-case/mail/send-email-reset-password'
 import { SendEmailResetPasswordController } from './controllers/mail/send-email-reset-password.controller'
+import { ResetPasswordController } from './controllers/user/reset-password.controller'
+import { ResetPasswordUseCase } from '@/domain/application/use-case/user/reset-password'
 
 @Module({
   imports: [
@@ -69,6 +71,7 @@ import { SendEmailResetPasswordController } from './controllers/mail/send-email-
     GetUserController,
     EditUserController,
     SendEmailResetPasswordController,
+    ResetPasswordController,
     CreateTransactionController,
     FetchTransactionController,
     DeleteTransactionController,
@@ -94,6 +97,7 @@ import { SendEmailResetPasswordController } from './controllers/mail/send-email-
     GetUserUseCase,
     EditUserUseCase,
     SendEmailResetPasswordUseCase,
+    ResetPasswordUseCase,
     CreateTransactionUseCase,
     FetchTransactionUseCase,
     DeleteTransactionUseCase,
