@@ -8,14 +8,13 @@ import { InvalidCodeError } from '@/core/@types/errors/invalid-code-error'
 
 interface ResetPasswordUseCaseRequest {
   code: string
-  email: string
   newPassword: string
   confirmNewPassword: string
 }
 
 type ResetPasswordUseCaseResponse = Either<
   InvalidCredentialsError | VerificationCodeExpiredError | InvalidCodeError,
-  { Message: string }
+  { message: string }
 >
 
 @Injectable()
@@ -27,21 +26,17 @@ export class ResetPasswordUseCase {
 
   async execute({
     code,
-    email,
     newPassword,
     confirmNewPassword,
   }: ResetPasswordUseCaseRequest): Promise<ResetPasswordUseCaseResponse> {
-    const user = await this.userRepository.findByEmail(email)
+    const user = await this.userRepository.findByVerificationCode(code)
 
     if (!user) {
-      return left(new InvalidCredentialsError())
+      return left(new InvalidCodeError())
     }
 
     if (user.codeExpiresAt && user.codeExpiresAt < new Date()) {
       return left(new VerificationCodeExpiredError())
-    }
-    if (user.verificationCode !== code) {
-      return left(new InvalidCodeError())
     }
 
     if (newPassword !== confirmNewPassword) {
@@ -54,6 +49,6 @@ export class ResetPasswordUseCase {
 
     await this.userRepository.save(user)
 
-    return right({ Message: 'Password reset successfully' })
+    return right({ message: 'Password reset successfully' })
   }
 }

@@ -27,14 +27,13 @@ describe('Reset Password Use Case', () => {
 
     const result = await sut.execute({
       code: user.verificationCode!,
-      email: user.email,
       newPassword: 'new_password',
       confirmNewPassword: 'new_password',
     })
 
     expect(result.isRight()).toBe(true)
     expect(result.value).toEqual({
-      Message: 'Password reset successfully',
+      message: 'Password reset successfully',
     })
   })
 
@@ -47,7 +46,6 @@ describe('Reset Password Use Case', () => {
 
     const result = await sut.execute({
       code: user.verificationCode!,
-      email: user.email,
       newPassword: 'new_password',
       confirmNewPassword: 'new_password',
     })
@@ -56,25 +54,6 @@ describe('Reset Password Use Case', () => {
 
     expect(result.isRight()).toBe(true)
     expect(inMemoryUserRepository.items[0].password).toBe(hashedPassword)
-  })
-
-  it('should return an error if the user does not exist', async () => {
-    const user = makeUser({
-      verificationCode: '123456',
-      codeExpiresAt: new Date(Date.now() + 1000 * 60 * 10),
-    })
-
-    await inMemoryUserRepository.create(user)
-
-    const result = await sut.execute({
-      code: user.verificationCode!,
-      email: 'non_existent_email@example.com',
-      newPassword: 'new_password',
-      confirmNewPassword: 'new_password',
-    })
-
-    expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(InvalidCredentialsError)
   })
 
   it('should return an error if the verification code is expired', async () => {
@@ -87,7 +66,6 @@ describe('Reset Password Use Case', () => {
 
     const result = await sut.execute({
       code: user.verificationCode!,
-      email: user.email,
       newPassword: 'new_password',
       confirmNewPassword: 'new_password',
     })
@@ -106,7 +84,6 @@ describe('Reset Password Use Case', () => {
 
     const result = await sut.execute({
       code: 'invalid_code',
-      email: user.email,
       newPassword: 'new_password',
       confirmNewPassword: 'new_password',
     })
@@ -124,7 +101,6 @@ describe('Reset Password Use Case', () => {
 
     const result = await sut.execute({
       code: user.verificationCode!,
-      email: user.email,
       newPassword: 'new_password',
       confirmNewPassword: 'different_password',
     })
