@@ -1,4 +1,3 @@
-import { SendEmailVerifyUseCase } from '@/domain/application/use-case/mail/send-email-verify'
 import { Public } from '@/infra/auth/public'
 import {
   BadRequestException,
@@ -11,27 +10,32 @@ import { z } from 'zod'
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
 import { InvalidCredentialsError } from '@/domain/application/use-case/errors/invalid-credentials-error'
 import { EmailAlreadyVerifiedError } from '@/core/@types/errors/email-already-verified-error'
+import { SendEmailResetPasswordUseCase } from '@/domain/application/use-case/mail/send-email-reset-password'
 
-const sendEmailVerifyBodySchema = z.object({
+const sendEmailResetPasswordBodySchema = z.object({
   email: z.string().email(),
 })
 
-type SendEmailVerifyBodyType = z.infer<typeof sendEmailVerifyBodySchema>
+type SendEmailResetPasswordBodyType = z.infer<
+  typeof sendEmailResetPasswordBodySchema
+>
 
-const bodyValidationType = new ZodValidationPipe(sendEmailVerifyBodySchema)
+const bodyValidationType = new ZodValidationPipe(
+  sendEmailResetPasswordBodySchema,
+)
 
-@Controller('mail/send-email-verify')
+@Controller('mail/send-email-reset-password')
 @Public()
-export class SendEmailVerifyController {
-  constructor(private sendEmailVerify: SendEmailVerifyUseCase) {}
+export class SendEmailResetPasswordController {
+  constructor(private sendEmailResetPassword: SendEmailResetPasswordUseCase) {}
 
   @Post()
-  async handle(@Body(bodyValidationType) body: SendEmailVerifyBodyType) {
-    sendEmailVerifyBodySchema.parse(body)
+  async handle(@Body(bodyValidationType) body: SendEmailResetPasswordBodyType) {
+    sendEmailResetPasswordBodySchema.parse(body)
 
     const { email } = body
 
-    const result = await this.sendEmailVerify.execute({
+    const result = await this.sendEmailResetPassword.execute({
       email,
     })
 

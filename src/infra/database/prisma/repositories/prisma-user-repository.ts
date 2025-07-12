@@ -39,6 +39,20 @@ export class PrimsaUserRepository implements UserRepository {
     return PrismaUserMapper.toDomain(user)
   }
 
+  async findByVerificationCode(code: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        verificationCode: code,
+      },
+    })
+
+    if (!user) {
+      return null
+    }
+
+    return PrismaUserMapper.toDomain(user)
+  }
+
   async create(user: User) {
     const data = PrismaUserMapper.toPrisma(user)
 

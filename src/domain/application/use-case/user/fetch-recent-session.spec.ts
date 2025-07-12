@@ -35,8 +35,6 @@ describe('Fetch Recent Session Use Case', () => {
       userId: session.userId,
     })
 
-    console.log(result.value)
-
     expect(result.isRight()).toBe(true)
     expect(result.value).toEqual({
       session: expect.objectContaining({

@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common'
 import { Mail } from '../../mail/mail'
 import { UserRepository } from '../../repositories/user-repository'
 import { InvalidCredentialsError } from '../errors/invalid-credentials-error'
+import { verifyEmailTemplate } from '@/domain/application/use-case/mail/templates/verify-email-template'
 
 interface SendEmailVerifyUseCaseRequest {
   email: string
@@ -44,7 +45,11 @@ export class SendEmailVerifyUseCase {
       user.email,
       user.name,
       'Verifique seu e-mail',
-      `Seu código de verificação é: ${user.verificationCode}`,
+      verifyEmailTemplate({
+        name: user.name,
+        subject: 'Verifique seu e-mail',
+        body: code,
+      }),
     )
 
     return right(null)

@@ -24,6 +24,16 @@ export class InMemoryUserRepository implements UserRepository {
     return user
   }
 
+  async findByVerificationCode(code: string) {
+    const user = this.items.find((user) => user.verificationCode === code)
+
+    if (!user) {
+      return null
+    }
+
+    return user
+  }
+
   async create(user: User) {
     this.items.push(user)
   }
