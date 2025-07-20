@@ -9,7 +9,7 @@ import {
 import { z } from 'zod'
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
 import { InvalidCredentialsError } from '@/domain/application/use-case/errors/invalid-credentials-error'
-import { EmailAlreadyVerifiedError } from '@/core/@types/errors/email-already-verified-error'
+
 import { SendEmailResetPasswordUseCase } from '@/domain/application/use-case/mail/send-email-reset-password'
 
 const sendEmailResetPasswordBodySchema = z.object({
@@ -44,8 +44,6 @@ export class SendEmailResetPasswordController {
 
       switch (error.constructor) {
         case InvalidCredentialsError:
-          throw new UnauthorizedException(error.message)
-        case EmailAlreadyVerifiedError:
           throw new UnauthorizedException(error.message)
         default:
           throw new BadRequestException(error.message)
